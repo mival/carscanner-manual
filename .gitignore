@@ -2,20 +2,37 @@
 work/
 backup-orig/
 screenshots/
-navod/raw/
+CLAUDE.local.md
+
+# Surová data – kdekoli v projektu
+raw/
+**/raw/
+*.raw
+records/
+tripLogs/
+torque-log/
+logs/
+*.log
+log*.txt
+trackLog.csv
+notices.csv
+profile.properties
+
+# Zálohy a záznamy Car Scanneru / Torque
 *.cbz
 *.brc
-log*.txt
-Transfer*Dock*.txt
+*.tdv
+*.dat
 coding.bak
+Transfer*Dock*.txt
+drivecycles*.db*
 
-# Mezivýstupy návodu (publikuje se jen navod/web/*.webp)
+# Nerozmazané a mezivýstupní screenshoty (publikuje se jen navod/web/*.webp)
 navod/img/
+Screenshot_*.jpg
+Screenshot_*.png
 
 # OS / editor
 .DS_Store
 Thumbs.db
 desktop.ini
-
-# Soukromé poznámky
-CLAUDE.local.md

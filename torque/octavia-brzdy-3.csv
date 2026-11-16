@@ -1,0 +1,4 @@
+"Name", "ShortName", "ModeAndPID", "Equation", "Min Value", "Max Value", "Units", "Header", "startDiagnostic", "stopDiagnostic","scale","minimumRefreshDelayMillis"
+"Brzdny moment ACC 2 raw", "ACC brzda2", "2215E7", "(SIGNED(A)*16777216)+(B*65536)+(C*256)+D", -100000, 100000, "raw", "7E0", "", "",1,0
+"Zrychleni vozu raw", "Zrychleni", "2212B0", "(SIGNED(A)*256)+B", -2000, 2000, "raw", "7E0", "", "",1,0
+"Podelne zrychleni raw", "Podelne", "2215CD", "(SIGNED(A)*256)+B", -32768, 32767, "raw", "7E0", "", "",1,0

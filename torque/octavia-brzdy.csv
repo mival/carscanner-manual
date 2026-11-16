@@ -1,0 +1,4 @@
+"Name", "ShortName", "ModeAndPID", "Equation", "Min Value", "Max Value", "Units", "Header", "startDiagnostic", "stopDiagnostic","scale","minimumRefreshDelayMillis"
+"Brzdny tlak", "Brzda", "22105C", "((A*256)+B)/10", 0, 150, "bar", "7E0", "", "",1,0
+"Posilovac brzd", "Posilovac", "221490", "((A*256)+B)/25", 0, 1000, "hPa", "7E0", "", "",1,0
+"Pedal plynu", "Plyn", "221026", "((A*256)+B)/81.92", 0, 100, "%", "7E0", "", "",1,0

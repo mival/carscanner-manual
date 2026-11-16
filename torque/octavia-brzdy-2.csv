@@ -1,0 +1,3 @@
+"Name", "ShortName", "ModeAndPID", "Equation", "Min Value", "Max Value", "Units", "Header", "startDiagnostic", "stopDiagnostic","scale","minimumRefreshDelayMillis"
+"Brzdova svetla (spinac)", "Stop", "223800", "A", 0, 1, "", "7E1", "", "",1,0
+"Brzdny moment ACC raw", "ACC brzda", "221610", "(SIGNED(A)*16777216)+(B*65536)+(C*256)+D", -100000, 100000, "raw", "7E0", "", "",1,0

@@ -1,0 +1,13 @@
+"Name", "ShortName", "ModeAndPID", "Equation", "Min Value", "Max Value", "Units", "Header", "startDiagnostic", "stopDiagnostic","scale","minimumRefreshDelayMillis"
+"Olej motoru (ECM)", "Olej", "2211BD", "(((A*256)+B)/10)-273.15", -20, 160, "°C", "7E0", "", "",1,2000
+"Olej motoru KI", "Olej KI", "22202F", "A-54", -20, 160, "°C", "714", "ATCRA77E", "ATAR",1,5000
+"Plnici tlak skutecny (abs)", "Plneni", "2211F0", "((A*256)+B)/12800", 0, 3, "bar", "7E0", "", "",1,0
+"Plnici tlak pozadovany (abs)", "Plneni poz", "2211F1", "((A*256)+B)/12800", 0, 3, "bar", "7E0", "", "",1,0
+"Olej DSG", "Olej DSG", "222104", "(SIGNED(B)*256)+A", -20, 160, "°C", "7E1", "", "",1,2000
+"Spojka 1 DSG", "Spojka 1", "22102B", "(SIGNED(B)*256)+A", -20, 300, "°C", "7E1", "", "",1,1000
+"Spojka 2 DSG", "Spojka 2", "22102C", "(SIGNED(B)*256)+A", -20, 300, "°C", "7E1", "", "",1,1000
+"Kvalt (ECM)", "Kvalt", "2214CB", "SIGNED(A)", -1, 7, "", "7E0", "", "",1,0
+"Kvalt TCM raw", "Kvalt T", "223816", "A", 0, 15, "", "7E1", "", "",1,0
+"Baterie napeti", "Bat V", "222A07", "((A*256)+B)/1000+4", 10, 16, "V", "710", "ATCRA77A", "ATAR",1,5000
+"Baterie teplota", "Bat T", "222A0B", "A-40", -20, 60, "°C", "710", "ATCRA77A", "ATAR",1,10000
+"Baterie nabiti", "Bat SOC", "222A0C", "A", 0, 100, "%", "710", "ATCRA77A", "ATAR",1,10000

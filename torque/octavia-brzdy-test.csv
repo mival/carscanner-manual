@@ -1,0 +1,6 @@
+"Name", "ShortName", "ModeAndPID", "Equation", "Min Value", "Max Value", "Units", "Header", "startDiagnostic", "stopDiagnostic","scale","minimumRefreshDelayMillis"
+"Brzdny tlak raw (ECM)", "Brzda tlak", "22105C", "(A*256)+B", 0, 3000, "raw", "7E0", "", "",1,0
+"Brzdovy pedal raw (ECM)", "Brzda pedal", "22105D", "(A*256)+B", 0, 1000, "raw", "7E0", "", "",1,0
+"Posilovac brzd raw (ECM)", "Posilovac", "221490", "(A*256)+B", 0, 30000, "raw", "7E0", "", "",1,500
+"Pedal plynu raw (ECM)", "Plyn", "221026", "(A*256)+B", 0, 1000, "raw", "7E0", "", "",1,0
+"Tocivy moment (ECM)", "Moment", "221010", "((SIGNED(A)*256)+B)/10", -50, 400, "Nm", "7E0", "", "",1,0

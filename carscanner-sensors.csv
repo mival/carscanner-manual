@@ -1,0 +1,529 @@
+pos,module,name,id,units,role,active,category,note
+1,ECM,ECU temperature,13965181,°C,None,1,check,
+2,ECM,A/C comperssor torque request,13965002,N·m,None,1,off,
+3,ECM,Road elevation angle,13965003,°,None,1,off,
+4,ECM,Engine torque,13965004,N·m,None,1,live,
+5,ECM,A/C compressor pressure,13965005,hPa,None,1,off,
+6,ECM,Coolant fan requested by A/C,13965007,%,None,1,off,
+7,ECM,A/C compressor torque,13965008,N·m,None,1,off,
+8,ECM,Generator torque request,13965009,N·m,None,1,off,
+9,ECM,Generator load signal,13965011,%,None,1,off,
+10,ECM,Accelerator pedal position,13965013,%,None,1,live,
+11,ECM,Accelerator pedal Torque limit,13965016,N·m,None,1,off,
+12,ECM,Battery voltage,13965017,V,None,1,off,
+13,ECM,Brake pressure,13965018,MPa,None,1,off,
+14,ECM,Brake pedal postion,13965019,%,None,1,off,
+15,ECM,Engine outlet coolant temperature calculated,13965021,°C,None,1,live,
+16,ECM,Torque limitation,13965027,N·m,None,1,off,
+17,ECM,Generator power,13965031,W,None,1,off,
+18,ECM,Requested torque: amount for auxiliary units,13965033,N·m,None,1,off,
+19,ECM,Lamba actual value,13965035,,None,1,live,
+20,ECM,Oxygen sensor 1: Characteristic deviation,13965036,,None,1,off,
+21,ECM,Idle torque regulation request,13965037,%,None,1,off,
+22,ECM,Odometer,13965039,km,None,1,check,
+23,ECM,Knock retard #1 (var.1),13965040,°,None,1,live,korekce zazehu valec 1
+24,ECM,Knock retard #3 (var.1),13965041,°,None,1,live,korekce zazehu valec 3
+25,ECM,Knock retard #4 (var.1),13965042,°,None,1,live,korekce zazehu valec 4
+26,ECM,Knock retard #2 (var.1),13965043,°,None,1,live,korekce zazehu valec 2
+27,ECM,Valve timing: the difference between the actual and the set angle,13965093,°,None,1,off,
+28,ECM,Camshaft adaptation: intake bank 1: phase position,13965053,°,None,1,off,
+29,ECM,Camshaft adaptation: exhaust bank 1: phase position,13965054,°,None,1,off,
+30,ECM,[EA888] Spark efficiency deviation at idle,13965057,%,None,1,off,
+31,ECM,[EA888] Spark efficiency deviation at part load,13965058,%,None,1,off,
+32,ECM,Coolant fan 1: commanded duty,13965065,%,None,1,off,
+33,ECM,Height correction,13965124,,None,1,off,
+34,ECM,Fuel part from EVAP system,13965070,,None,1,off,
+35,ECM,Short term throttle adaptation to MAF,13965071,,None,1,check,
+36,ECM,Long term throttle adaptation to MAF,13965072,,None,1,check,
+37,ECM,Fuel rate,13965074,L/h,InstantFuelRate,1,live,
+38,ECM,Misfires total summ counter,13965080,,None,1,check,
+39,ECM,Misfires for 1000 revolutions: cyl. 1,13965081,,None,1,check,
+40,ECM,Misfires for 1000 revolutions: cyl. 3,13965082,,None,1,check,
+41,ECM,Misfires for 1000 revolutions: cyl. 4,13965083,,None,1,check,
+42,ECM,Misfires for 1000 revolutions: cyl. 2,13965084,,None,1,check,
+43,ECM,Misfires: Cyl. 1,13965085,,None,1,check,
+44,ECM,Misfires: Cyl. 3,13965086,,None,1,check,
+45,ECM,Misfires: Cyl. 4,13965087,,None,1,check,
+46,ECM,Misfires: Cyl. 2,13965088,,None,1,check,
+47,ECM,Odometer with ECU installed,13965098,km,None,1,check,
+48,ECM,Idle target RPM,13965099,rpm,None,1,off,
+49,ECM,Integrated mass of air since engine start,13965060,g.,None,1,check,
+50,ECM,Inlet flaps - actual value,13965104,%,None,1,off,
+51,ECM,Inlet flaps - requested value,13965105,%,None,1,off,
+52,ECM,[EA888b] Boost pressure regulator: commanded,13965106,%,None,1,off,
+53,ECM,Fuel pump: commanded duty,13965107,%,None,1,off,
+54,ECM,Intake model air mass flow filtered value,13965111,g/sec,None,1,off,
+55,ECM,Mass air flow through throttle,13965112,g/sec,None,1,off,
+56,ECM,Mass air flow: commanded,13965113,g/sec,None,1,off,
+57,ECM,Oil level,13965116,mm,None,1,check,
+58,ECM,Critical oil level,13965163,mm,None,1,check,
+59,ECM,Engine oil temperature,13965115,°C,None,1,live,
+60,ECM,LTFT at Idle,13965117,%,None,1,check,
+61,ECM,Low fuel pressure: actual,13965120,kPa,None,1,live,tlak paliva NT
+62,ECM,Fuel pump adaptation,13965121,kPa,None,1,off,
+63,ECM,Low fuel pressure: commanded,13965122,kPa,None,1,off,
+64,ECM,Brake booster pressure,13965123,hPa,None,1,off,
+65,ECM,Brake booster raw pressure,13965020,hPa,None,1,off,
+66,ECM,High pressure control: adaptation,13965126,MPa,None,1,off,
+67,ECM,Turbocharger inlet pressure corrected value,13965128,hPa,None,1,off,
+68,ECM,High fuel pressure: regulation error,13965129,MPa,None,1,off,
+69,ECM,High fuel pressure: commanded,13965131,MPa,None,1,live,
+70,ECM,Intake Manifold Pressure: Corrected,13965133,hPa,None,1,off,
+71,ECM,"Manifold absolute pressure, raw value",13965127,hPa,None,1,off,
+72,ECM,Intake Manifold Pressure: Commanded,13965134,hPa,None,1,off,
+73,ECM,Commanded crankshaft torque,13965135,N·m,None,1,off,
+74,ECM,Internal torque to reach commanded torque,13965136,N·m,None,1,off,
+75,ECM,Pressure before throttle valve - actual value,13965137,hPa,None,1,off,
+76,ECM,Pressure before throttle valve - sensor measured,13965138,hPa,None,1,off,
+77,ECM,Boost pressure: actual,13965141,hPa,None,1,aa,"plnici tlak skutecny (absolutni, hPa)"
+78,ECM,Boost pressure: commanded,13965140,hPa,None,1,aa,plnici tlak pozadovany
+79,ECM,Boost pressure: adaptation value,13965139,hPa,None,1,check,
+80,ECM,"[EA888b] Boost pressure control, adaptation value 0",13965142,hPa,None,1,check,
+81,ECM,"[EA888b] Boost pressure control, adaptation value 1",13965143,hPa,None,1,check,
+82,ECM,"[EA888b] Boost pressure control, adaptation value 2",13965144,hPa,None,1,check,
+83,ECM,"[EA888b] Boost pressure control, adaptation value 3",13965145,hPa,None,1,check,
+84,EA888,Knock Sensor: Cylinder 1 var.1,13965146,,None,1,off,
+85,EA888,Knock Sensor: Cylinder 3 var.1,13965147,,None,1,off,
+86,EA888,Knock Sensor: Cylinder 4 var.1,13965148,,None,1,off,
+87,EA888,Knock Sensor: Cylinder 2 var.1,13965149,,None,1,off,
+88,EA888,Air filling,13965150,%,None,1,off,
+89,EA888,Loss torque adaptation,13965151,N·m,None,1,check,
+90,ECM,Torque loss adaptation: A/C compressor + Gear engaged,13965152,N·m,None,1,check,
+91,ECM,Torque loss adaptation: A/C compressor,13965153,N·m,None,1,check,
+92,ECM,Torque loss adaptation: Gear engaged,13965154,N·m,None,1,check,
+93,ECM,Torque loss adaptation at idle,13965155,N·m,None,1,check,
+94,ECM,WIV: max oil level for service interval,13965161,mm,None,1,check,
+95,ECM,WIV: min oil level for service interval,13965162,mm,None,1,check,
+96,ECM,[EA888] EGT after catalyst (model),13965064,°C,None,1,off,
+97,ECM,Variable valve timing: intake: bank 1: regulation,13965097,%,None,1,off,
+98,ECM,Variable valve timing: intake: bank 1: switch on,13965096,%,None,1,off,
+99,ECM,Fuel temperature,13965182,°C,None,1,off,
+100,ECM,Avg. injection time,13965100,ms,None,1,off,
+101,ECM,Coolant at engine start,13965022,°C,None,1,off,
+102,ECM,Acceleration,13965195,g,None,1,check,
+103,ECM,Torque reduction request from ESP,13965197,N·m,None,1,off,
+104,ECM,Torque increase request from ESP,13965198,N·m,None,1,off,
+105,ECM,Camshaft adjustment: exhaust bank 1: actual value,13965095,°,None,1,off,
+106,ECM,Camshaft adjustment: intake bank 1: actual value,13965094,°,None,1,off,
+107,ECM,Camshaft adjustment: exhaust bank 1: speicified value,13965092,°,None,1,off,
+108,ECM,Camshaft adjustment: intake bank 1: specified value,13965091,°,None,1,off,
+109,ECM,[EA888] Camshaft position: Deviation from the base position,13965048,°,None,1,check,
+110,ECM,[EA888] EGT at Lambda sensor 1 (model),13965063,°C,None,1,off,
+111,ECM,Lamba value adapted value at part. load,13965077,,None,1,off,
+112,ECM,[EA888] EGT at pre-catalyst (model),13965062,°C,None,1,live,
+113,ECM,Electric additional coolant pump control (high circle),13965156,%,None,1,off,
+114,ECM,Brake booster: actual vacuum,13965038,hPa,None,1,off,
+115,ECM,Intake air temperature,13965178,°C,None,1,aa,IAT
+116,ECM,Rated drive torque,13965196,N·m,None,1,off,
+117,ECM,Vstupní úroveň paliva var.1,13965032,L,FuelLevelInputLiters,1,off,
+118,ECM,Gear,13965471,,None,1,aa,"funguje, shodne s [TCM] Current gear [DQ500]; zaloha z ECM"
+119,ECM,Fuel rate since DTC clear,13965075,L/h,None,1,off,
+120,ECM,Secondary air sensor 1,13965132,hPa,None,1,off,
+121,ECM,Ambient temperature,13965046,°C,None,1,off,
+122,ECM,[EA888] Main Catalyst aging factor,13965061,,None,1,check,
+123,ECM,Ambient air pressure,13965125,hPa,BARO,1,off,
+124,ECM,Fuel consumption - actual drive cycle,13965101,L,None,1,check,
+125,ECM,High fuel pressure: actual,13965130,MPa,None,1,live,tlak paliva VT
+126,ECM,Engine Oil Sump Temperature,13965114,°C,None,1,off,
+127,ECM,Oil level: last dynamic value,13965159,mm,None,1,check,
+128,ECM,Oil level: average dynamic value,13965160,mm,None,1,check,
+129,ECM,[EA888] Oil pressure sensor-piston cooling nozzle switch: status,13965109,,None,1,off,
+130,ECM,Intake air temperature raw value,13965102,°C,None,1,off,
+131,ECM,Generator load normalized value,13965010,%,None,1,off,
+132,ECM,Result of crankcase ventilation test: successful,13965015,,None,1,check,
+133,ECM,Result of crankcase ventilation test: fail,13965014,,None,1,check,
+134,ECM,Coolant temperature at radiator outlet v.1,13965023,°C,None,1,off,
+135,ECM,Longitudinal acceleration (raw value),13965028,g,None,1,off,
+136,ECM,Yaw acceleration (raw value),13965029,g,None,1,off,
+137,ECM,Lateral acceleration (raw value),13965030,g,None,1,off,
+138,ECM,Lamba output value,13965076,,None,1,off,
+139,ECM,Effective injection duration,13965179,ms,None,1,off,
+140,ECM,"Requested brake torque, Auxiliary system",13965034,N·m,None,1,off,
+141,ECM,Longitudinal acceleration,13965103,g,None,1,off,
+142,ECM,Coolant circulation pump: control,13965157,%,None,1,off,
+143,ECM,Heater circulation pump: nominal value,13965158,%,None,1,off,
+144,ECM,AVS: valve lift: intake,13965199,,None,1,off,
+145,ECM,AVS: valve lift: exhaust,13965200,,None,1,off,
+146,ECM,Throttle regulator nominal value,13965026,%,None,1,off,
+147,ECM,Engine RPM,13965047,rpm,RPM,1,aa,
+148,ECM,[EA888] Piston cooling nozzles: control,13965108,,None,1,off,
+149,ECM,Fuel mix correction coef.,13965066,,None,1,off,
+150,ECM,Ratio between evaporated fuel mass from engine oil and base ful mass needed - actual,13965068,,None,1,check,
+151,ECM,Ratio between evaporated fuel mass from engine oil and base ful mass needed - maximum,13965069,,None,1,check,
+152,ECM,[EA888] Total mass of gasoline and ethyl alcohol in oil,13965110,g.,None,1,check,
+153,ECM,[EA888] Preignition counter: total Cyl.1,13965170,,None,1,check,
+154,ECM,[EA888] Preignition counter: total Cyl.3,13965171,,None,1,check,
+155,ECM,[EA888] Preignition counter: total Cyl.4,13965172,,None,1,check,
+156,ECM,[EA888] Preignition counter: total Cyl.2,13965173,,None,1,check,
+157,ECM,[EA888] Preignition counter: Cyl.1,13965174,,None,1,check,
+158,ECM,[EA888] Preignition counter: Cyl.3,13965175,,None,1,check,
+159,ECM,[EA888] Preignition counter: Cyl.4,13965176,,None,1,check,
+160,ECM,[EA888] Preignition counter: Cyl.2,13965177,,None,1,check,
+161,ECM,[EA888] Intake Camshaft: adaptation sensor tolerance,13965051,°,None,1,check,
+162,ECM,Integrated mass of air since the first engine start,13965059,g.,None,1,check,
+163,ECM,[EA888] Exhaust Camshaft: adaptation bias,13965050,°,None,1,check,
+164,ECM,[EA888] Intake Camshaft: adaptation bias,13965049,°,None,1,check,
+165,ECM,[EA888] Exhaust Camshaft: adaptation sensor tolerance,13965052,°,None,1,check,
+166,ECM,Long term fuel trim FSI at load,13965078,,None,1,check,
+167,ECM,Long term fuel trim MPI at load,13965079,,None,1,check,
+168,ECM,LTFT at Idle - FSI,13965118,%,None,1,check,
+169,ECM,LTFT at Idle - MPI,13965119,%,None,1,check,
+170,ECM,Intake phase deviation: actual value,13965167,°,None,1,check,
+171,ECM,Fuel rate difference: injector/sensor,13965073,L,None,1,off,
+172,ECM,Number of engine starts: manual,13965000,,None,1,check,
+173,ECM,Number of automatic engine starts,13965001,,None,1,check,
+174,ECM,Exhaust gas temperature - calculated after catalyst,13965044,°C,None,1,check,
+175,ECM,Engine protection: torque limit,13965045,N·m,None,1,check,
+176,ECM,Charge pressure actuator: specified position,13965186,%,None,1,live,wastegate – pozadovana poloha
+177,ECM,[EA888] Charge pressure actuator: adaptation for lower stop,13965192,mV,None,1,off,
+178,ECM,[EA888] Charge pressure actuator: adaptation for upper stop,13965194,mV,None,1,off,
+179,ECM,Bypass valve high pressure turbine inlet: target value,13965184,%,None,1,off,
+180,ECM,Bypass valve high pressure turbine inlet: actual value,13965185,%,None,1,off,
+181,ECM,Bypass valve high pressure turbine inlet: offset closed,13965187,%,None,1,off,
+182,ECM,Bypass valve high pressure turbine inlet: offset open,13965188,%,None,1,off,
+183,ECM,Bypass valve high pressure turbine inlet: activation,13965189,%,None,1,off,
+184,ECM,Bypass valve high pressure turbine inlet: raw voltage,13965190,mV,None,1,off,
+185,ECM,Bypass valve high pressure turbine inlet: raw voltage,13965191,mV,None,1,off,
+186,ECM,[EA888] Charge pressure actuator: maximum sensor voltage,13965193,mV,None,1,off,
+187,ECM,Intake phase deviation: after chain replacement,13965168,°,None,1,check,
+188,ECM,Exhaust phase deviation: after chain replacement,13965165,°,None,1,check,
+189,ECM,Intake phase deviation: after repair,13965169,°,None,1,check,
+190,ECM,Exhaust phase deviation: after repair,13965166,°,None,1,check,
+191,ECM,Exhaust phase deviation: actual value,13965164,°,None,1,check,
+192,ECM,Number of injections,13965012,,None,1,off,
+193,ECM,[EA888] Thermostat: commanded,13965055,%,None,1,check,
+194,ECM,[EA888] Thermostat: actual,13965056,%,None,1,check,
+195,ECM,Maximum ECU temperature,13965180,°C,None,1,off,
+196,ECM,[EA888] Camshaft adaptation: intake deviation,13965089,°,None,1,check,
+197,ECM,"Exhaust timing chain extension, mileage since last adaptation",13965024,km,None,1,check,
+198,ECM,"Intake timing chain extension, mileage since last adaptation",13965025,km,None,1,check,
+199,ECM,[EA888] Camshaft adaptation: counter due to knock,13965090,,None,1,check,
+200,TCM,ECU temperature,13965201,°C,None,1,check,
+201,TCM,Driver demand torque,13965203,N·m,None,1,off,CVT – nerelevantni
+202,TCM,Engine torque,13965204,N·m,EngineTorque,1,off,
+203,TCM,Engine torque limitation,13965205,N·m,None,1,off,
+204,TCM,Engine torque loss,13965206,N·m,None,1,off,
+205,DQ500,Road resistance,13965480,%,None,1,test,
+206,DQ500,Driving strategy: mountain factor,13965481,%,None,1,test,
+207,DQ500,Driving strategy: sport factor,13965482,%,None,1,test,
+208,TCM,Ujetá vzdálenost #2,13965208,km,None,1,check,
+209,TCM,Clutch center central plate temperature,13965209,°C,None,1,check,
+210,TCM,Clutch 1 temperature,13965210,°C,None,1,live,
+211,TCM,Clutch 2 temperature,13965211,°C,None,1,live,
+212,DQ500,Clutch 1 Adaptation basic characteristic point 0 position,13965213,bar,None,1,test,
+213,DQ500,Clutch 1 Adaptation basic charac. point 0 moment,13965214,N·m,None,1,test,
+214,DQ500,Clutch 1 Adaptation basic characteristic point 1 position,13965215,bar,None,1,test,
+215,DQ500,Clutch 1 Adaptation basic charac. point 1 moment,13965216,N·m,None,1,test,
+216,DQ500,Clutch 1 Adaptation basic characteristic point 2 position,13965217,bar,None,1,test,
+217,DQ500,Clutch 1 Adaptation basic charac. point 2 moment,13965218,N·m,None,1,test,
+218,DQ500,Clutch 1 Adaptation basic characteristic point 3 position,13965219,bar,None,1,test,
+219,DQ500,Clutch 1 Adaptation basic charac. point 3 moment,13965220,N·m,None,1,test,
+220,DQ200/DQ500,Clutch 1 Friction value correction factor,13965221,%,None,1,test,
+221,DQ200/DQ500,Clutch 1 Friction value correction factor,13965479,%,None,1,test,
+222,DQ500,Clutch 1 characteristic curve shift,13965483,mm,None,1,test,
+223,TCM,Analysis: Clutch 1 maximum temperature,13965222,°C,None,1,check,
+224,TCM,Clutch 1 temperature time in range 0,13965223,sec.,None,1,check,
+225,TCM,Analysis: Clutch 1 temperature time in range 1,13965224,sec.,None,1,check,
+226,TCM,Analysis: Clutch 1 temperature time in range 2,13965225,sec.,None,1,check,
+227,TCM,Analysis: Clutch 1 temperature time in range 3,13965226,sec.,None,1,check,
+228,TCM,Clutch 1 protection function engaged (Qty),13965227,,None,1,check,
+229,DQ500,Clutch 2 Adaptation basic characteristic point 0 position,13965228,bar,None,1,test,
+230,DQ500,Clutch 2 Adaptation basic charac. point 0 moment,13965229,N·m,None,1,test,
+231,DQ500,Clutch 2 Adaptation basic characteristic point 1 position,13965230,bar,None,1,test,
+232,DQ500,Clutch 2 Adaptation basic charac. point 1 moment,13965231,N·m,None,1,test,
+233,DQ500,Clutch 2 Adaptation basic characteristic point 2 position,13965232,bar,None,1,test,
+234,DQ500,Clutch 2 Adaptation basic charac. point 2 moment,13965233,N·m,None,1,test,
+235,DQ500,Clutch 2 Adaptation basic characteristic point 3 position,13965234,bar,None,1,test,
+236,DQ500,Clutch 2 Adaptation basic charac. point 3 moment,13965235,N·m,None,1,test,
+237,DQ500,Clutch 2 Adaptation end position opened,13965236,bar,None,1,test,
+238,DQ500,Clutch 2 Adaptation end position closed,13965237,bar,None,1,test,
+239,DQ200,Clutch 2 Friction value correction factor,13965238,%,None,1,test,
+240,DQ500,Clutch 2 characteristic curve shift,13965484,mm,None,1,test,
+241,TCM,Analysis: Clutch 2 maximum temperature,13965239,°C,None,1,check,
+242,TCM,Analysis: Clutch 2 temperature time in range 0,13965240,sec.,None,1,check,
+243,TCM,Analysis: Clutch 2 temperature time in range 1,13965241,sec.,None,1,check,
+244,TCM,Analysis: Clutch 2 temperature time in range 2,13965242,sec.,None,1,check,
+245,TCM,Analysis: Clutch 2 temperature time in range 3,13965243,sec.,None,1,check,
+246,TCM,Clutch 2 protection function engaged (Qty),13965244,,None,1,check,
+247,DQ500,Gear actuator adaptation engaged position G1,13965245,mm,None,1,test,
+248,DQ500,Gear actuator adaptation synchro position G1,13965246,mm,None,1,test,
+249,DQ500,Gangsteller A Adaptation Neutralposition,13965247,mm,None,1,test,
+250,DQ500,Gear actuator adaptation synchro position G3,13965248,mm,None,1,test,
+251,DQ500,Gear actuator adaptation engaged position G3,13965249,mm,None,1,test,
+252,DQ500,Gear actuator adaptation engaged position G2,13965250,mm,None,1,test,
+253,DQ500,Gear actuator adaptation synchro position G2,13965251,mm,None,1,test,
+254,DQ500,Gangsteller B Adaptation Neutralposition,13965252,mm,None,1,test,
+255,DQ500,Gear actuator adaptation synchro position G4,13965253,mm,None,1,test,
+256,DQ500,Gear actuator adaptation engaged position G4,13965254,mm,None,1,test,
+257,DQ500,Gear actuator adaptation engaged position G5,13965255,mm,None,1,test,
+258,DQ500,Gear actuator adaptation synchro position G5,13965256,mm,None,1,test,
+259,DQ500,Gangsteller C Adaptation Neutralposition,13965257,mm,None,1,test,
+260,DQ500,Gear actuator adaptation synchro position G7,13965258,mm,None,1,test,
+261,DQ500,Gear actuator adaptation engaged position G7,13965259,mm,None,1,test,
+262,DQ500,Gear actuator adaptation engaged position G6,13965260,mm,None,1,test,
+263,DQ500,Gear actuator adaptation synchro position G6,13965261,mm,None,1,test,
+264,DQ500,Gangsteller D Adaptation Neutralposition,13965262,mm,None,1,test,
+265,DQ500,Gear actuator adaptation synchro position GR,13965263,mm,None,1,test,
+266,DQ500,Gear actuator adaptation engaged position GR,13965264,mm,None,1,test,
+267,TCM,Clutch 1: successful adaptations counter,13965265,,None,1,check,
+268,TCM,Clutch 1: mileage of the last adaptation,13965266,,None,1,check,
+269,DQ500,Clutch 1 Adaptation kiss point part 1: odometer reading,13965267,km,None,1,test,
+270,TCM,Clutch 1: failed adaptations counter,13965268,,None,1,check,
+271,TCM,Clutch 2: successful adaptations counter,13965269,,None,1,check,
+272,TCM,Clutch 2: mileage of the last adaptation,13965270,,None,1,check,
+273,DQ500,Clutch 2 Adaptation kiss point part 1: odometer reading,13965271,km,None,1,test,
+274,TCM,Clutch 2: failed adaptations counter,13965272,,None,1,check,
+275,TCM/DSG,Working hours,13965470,Hours,None,1,check,
+276,DQ500,Reached maximum temperature,13965485,°C,None,1,test,
+277,TCM,Clutch #1 maximum temperature,13965275,°C,None,1,check,
+278,TCM,Clutch #2 maximum temperature,13965276,°C,None,1,check,
+279,TCM,Launch control counter var.1,13965286,,None,1,check,
+280,DQ500,Clutch kisspoint rapid adaptation remaining,13965486,km,None,1,test,
+281,TCM,ATF temperature (DSG/S-Tronic),13965301,°C,None,1,live,DSG/S-Tronic varianta – overit pro DQ381
+282,TCM,ATF temperature var.2 (DSG/S-Tronic),13965302,°C,None,1,live,DSG/S-Tronic varianta – overit pro DQ381
+283,TCM,ATF temperature var.3 (AT/CVT/DL501),13965303,°C,None,1,off,AT/CVT/DL501 – nerelevantni
+284,TCM,ATF temperature var.4 (DL382),13965305,°C,None,1,off,DL382 – nerelevantni
+285,TCM,Engine specified torque during transmission intervention [AT],13965307,N·m,None,1,off,[AT] – klasicky automat
+286,TCM,Kick down,13965308,,None,1,off,
+287,TCM,Stop signal switch,13965312,,None,1,off,
+288,TCM,Break pressure,13965313,bar,None,1,off,
+289,TCM,Transmission input speed,13965314,rpm,None,1,off,
+290,TCM,Transmission output speed,13965315,rpm,None,1,off,
+291,DQ500,Input shaft 1,13965487,rpm,None,1,test,
+292,DQ500,Input shaft 2,13965488,rpm,None,1,test,
+293,DQ500,Output shaft 1,13965489,rpm,None,1,test,
+294,DQ500,Output shaft 2,13965490,rpm,None,1,test,
+295,TCM,Current gear [DQ200],13965316,,None,1,off,"DQ381: nesmyslne hodnoty (0, -2, 10) – spatna varianta"
+296,TCM,Current gear [DQ500],13965478,,None,1,aa,"DQ381: funguje (2026-11-06 14:42 shodne s [ECM] Gear: D=1, N/P=0, R=-1)"
+297,TCM,A/C Compressor Shutdown Requirement,13965317,,None,1,off,
+298,TCM,Oil pressure: actual,13965318,bar,None,1,live,
+299,TCM,Oil pressure actual current,13965319,mA,None,1,off,
+300,TCM,Transmission part 1 pressure: commanded,13965320,bar,None,1,off,
+301,TCM,Transmission part 1 pressure: actual,13965321,bar,None,1,off,
+302,TCM,Transmission part 2 pressure: commanded,13965322,bar,None,1,off,
+303,TCM,Transmission part 2 pressure: actual,13965323,bar,None,1,off,
+304,TCM,Transmission part 1 valve current: commanded,13965324,mA,None,1,off,
+305,TCM,Transmission part 1 valve current: actual,13965325,mA,None,1,off,
+306,TCM,Transmission part 2 valve current: commanded,13965326,mA,None,1,off,
+307,TCM,Transmission part 2 valve current: actual,13965327,mA,None,1,off,
+308,TCM,Clutch 2 actual torque,13965330,N·m,None,1,live,
+309,TCM/AT,Ujetá vzdálenost #1,13965333,km,None,1,off,TCM/AT varianta
+310,TCM/DSG,Ujetá vzdálenost #1,13965334,km,None,1,check,
+311,TCM,Clutch 1 Temperature Protection: Warning 1 (Qty),13965335,,None,1,check,
+312,TCM,Clutch 1 Temperature Protection: Warning 2 (Qty),13965336,,None,1,check,
+313,TCM,Clutch 1 Temperature Protection: Overheat Protection 1 (Qty),13965337,,None,1,check,
+314,TCM,Clutch 2 Temperature Protection: Warning 1 (Qty),13965338,,None,1,check,
+315,TCM,Clutch 2 Temperature Protection: Warning 2 (Qty),13965339,,None,1,check,
+316,TCM,Clutch 2 Temperature Protection: Overheat Protection 1 (Qty),13965340,,None,1,check,
+317,TCM,Odometer #2,13965341,km,None,1,check,
+318,TCM,Driving time ecological,13965342,%,None,1,check,
+319,TCM,Driving time sporty,13965343,%,None,1,check,
+320,TCM,Driving time manual,13965344,%,None,1,check,
+321,TCM,Drive cycles counter,13965345,,None,1,check,
+322,TCM,Ignition cycles,13965346,,None,1,check,
+323,TCM,Centrifugal oil temperature,13965355,°C,None,1,live,"porovnat s var.2, ponechat tu, ktera dava smysl"
+324,TCM,Centrifugal oil temperature var.2,13965356,°C,None,1,aa,teplota oleje DSG za spojkami – hlavni hodnota prevodovky
+325,TCM,Clutch 2 actual pressure,13965357,bar,None,1,live,
+326,TCM,Clutch 1 actual pressure,13965358,bar,None,1,live,
+327,TCM,Clutch 1 commanded pressure,13965359,bar,None,1,off,
+328,TCM,Clutch 2 commanded pressure,13965360,bar,None,1,off,
+329,BCM,Heater for nozzles active,13965513,,None,1,off,
+330,GATE,Battery voltage,13965411,V,None,1,aa,
+331,GATE,Battery current,13965412,A,None,1,live,
+332,GATE,Temperature of Battery sensor,13965413,°C,None,1,check,
+333,GATE,Battery temperature,13965415,°C,None,1,check,
+334,GATE,Battery charge condition,13965416,%,None,1,live,
+335,GATE,Battery internal resistance,13965417,mOhm,None,1,check,
+336,GATE,Battery voltage at rest,13965418,V,None,1,check,
+337,EPS,Steering wheel torque sensor 1,13965419,°,None,1,off,
+338,EPS,Steering wheel torque sensor 2,13965420,°,None,1,off,
+339,EPS,Steering wheel angle,13965421,°,None,1,off,
+340,ABS,Front left wheel speed,13965422,km/h,None,1,off,
+341,ABS,Front right wheel speed,13965423,km/h,None,1,off,
+342,ABS,Rear left wheel speed,13965424,km/h,None,1,off,
+343,ABS,Rear right wheel speed,13965425,km/h,None,1,off,
+344,ABS,Steering wheel angle,13965426,°,None,1,off,
+345,ABS,Hill descent control: Incline,13965511,%,None,1,off,
+346,ABS,Hill descent control: Active,13965512,,None,1,off,
+347,ABS,Electronic differential lock: Active,13965427,,None,1,off,
+348,ABS,Electronic differential lock: Front left brake temperature,13965428,°C,None,1,check,
+349,ABS,Electronic differential lock: Front right brake temperature,13965429,°C,None,1,check,
+350,ABS,Electronic differential lock: Rear left brake temperature,13965430,°C,None,1,check,
+351,ABS,Electronic differential lock: Rear right brake temperature,13965431,°C,None,1,check,
+352,ABS,Brake disk drying: Active,13965432,,None,1,off,
+353,ABS,Brake disk drying: Odometer of last activation,13965491,km,None,1,check,
+354,ABS,Hydraulic brake booster: Active,13965433,,None,1,off,
+355,ABS,Brake pressure sensor,13965509,bar,None,1,off,
+356,ABS,Air gab Vacuum sensor,13965510,mbar,None,1,off,
+357,ABS,TPMS: Odometer reading three adaptations ago,13965495,km,None,1,off,
+358,ABS,TPMS: Available,13965492,,None,1,off,
+359,ABS,TPMS: Odometer reading at last warning,13965497,km,None,1,off,
+360,ABS,TPMS: Rear left flat tire indicator,13965507,,None,1,off,
+361,ABS,TPMS: Odometer reading four adaptations ago,13965496,km,None,1,off,
+362,ABS,TPMS: Front left tire pressure diffusion indicator,13965501,,None,1,off,
+363,ABS,TPMS: Front left flat tire indicator,13965505,,None,1,off,
+364,ABS,TPMS: Rear left tire pressure diffusion indicator,13965503,,None,1,off,
+365,ABS,TPMS: Odometer reading at next-to-last warning,13965498,km,None,1,off,
+366,ABS,TPMS: Front right flat tire indicator,13965506,,None,1,off,
+367,ABS,TPMS: Rear right flat tire indicator,13965508,,None,1,off,
+368,ABS,TPMS: Odometer reading at third-to-last warning,13965499,km,None,1,off,
+369,ABS,TPMS: Front right tire pressure diffusion indicator,13965502,,None,1,off,
+370,ABS,TPMS: Odometer reading at last adaptation,13965493,km,None,1,off,
+371,ABS,TPMS: Rear right tire pressure diffusion indicator,13965504,,None,1,off,
+372,ABS,TPMS: Odometer reading at fourth-to-last warning,13965500,km,None,1,off,
+373,ABS,TPMS: Odometer reading two adaptations ago,13965494,km,None,1,off,
+374,ABS,Counter steer support: Active,13965434,,None,1,off,
+375,ABS,Counter steer support: Odometer reading of last activation,13965435,km,None,1,check,
+376,ABS,Counter steer support: Steering torque,13965436,N·m,None,1,off,
+377,DASH,Teplota okolního vzduchu,13965437,°C,AMBIENT_TEMP,1,live,
+378,DASH,Teplota motorového oleje,13965438,°C,None,1,aa,
+379,DASH,Ujetá vzdálenost,13965439,km,None,1,check,
+380,DASH,Oil thermal wear,13965440,km,None,1,check,
+381,DASH,Vstupní úroveň paliva v.2,13965444,L,None,1,off,
+382,SRS,Front crash counter,13965446,,None,1,check,
+383,SRS,Side crash counter (driver side),13965447,,None,1,check,
+384,SRS,Side crash counter (passenger side),13965448,,None,1,check,
+385,SRS,Rear crash counter,13965449,,None,1,check,
+386,SRS,Rollover counter,13965450,,None,1,check,
+387,CLIMATE,A/C compressor speed,13965451,rpm,None,1,off,
+388,CLIMATE,A/C compressor load,13965452,N·m,None,1,off,
+389,CLIMATE,Refrigerant pressure,13965453,bar,None,1,check,
+390,CLIMATE,Radiator fan actual duty,13965454,%,None,1,off,
+391,CLIMATE,Radiator fan commanded duty,13965455,%,None,1,off,
+392,CLIMATE,Outside temperature,13965456,°C,None,1,off,
+393,CLIMATE,Outside temperature (system calculated),13965457,°C,None,1,off,
+394,CLIMATE,Front left deflector temperature,13965458,°C,None,1,off,
+395,CLIMATE,Front right deflector temperature,13965459,°C,None,1,off,
+396,CLIMATE,Leg deflector temperature,13965460,°C,None,1,off,
+397,CLIMATE,Temperature after evaporator,13965461,°C,None,1,check,
+398,CLIMATE,Cabin temprature,13965462,°C,None,1,off,
+399,CLIMATE,Recirculation flap actual value %,13965473,%,None,1,off,
+400,CLIMATE,Recirculation flap actual value,13965474,,None,1,off,
+401,CLIMATE,Recirculation flap target value,13965475,,None,1,off,
+402,CLIMATE,Recirculation flap - fresh air threshold,13965476,,None,1,off,
+403,CLIMATE,Recirculation flap - recirculation threshold,13965477,,None,1,off,
+404,CLIMATE,Front left temperature flap actual value,13965463,%,None,1,off,
+405,CLIMATE,Front right temperature flap actual value,13965464,%,None,1,off,
+406,CLIMATE,Air polution level,13965466,,None,1,off,
+407,CLIMATE,Cabin humidity,13965467,%,None,1,off,
+408,CLIMATE,Windshield temperature,13965468,°C,None,1,off,
+409,CLIMATE,Relative humidity,13965469,%,None,1,off,
+410,ECM,Catalyst temperature (calculated),13965183,°C,None,0,check,vypoctena teplota katalyzatoru
+411,ECM,A/C compressor pressure (linearized raw value),13965006,hPa,None,0,off,
+412,ECM/Gen.4,Misfires for 1000 revolutions: cyl. 1,13965517,,None,0,test,vynechy zapalovani (Gen.4) – overit podporu
+413,ECM/Gen.4,Misfires for 1000 revolutions: cyl. 3,13965518,,None,0,test,vynechy zapalovani (Gen.4) – overit podporu
+414,ECM/Gen.4,Misfires for 1000 revolutions: cyl. 4,13965519,,None,0,test,vynechy zapalovani (Gen.4) – overit podporu
+415,ECM/Gen.4,Misfires for 1000 revolutions: cyl. 2,13965520,,None,0,test,vynechy zapalovani (Gen.4) – overit podporu
+416,ECM/Gen.4,Misfires: Cyl. 1,13965521,,None,0,test,vynechy zapalovani (Gen.4) – overit podporu
+417,ECM/Gen.4,Misfires: Cyl. 3,13965522,,None,0,test,vynechy zapalovani (Gen.4) – overit podporu
+418,ECM/Gen.4,Misfires: Cyl. 4,13965523,,None,0,test,vynechy zapalovani (Gen.4) – overit podporu
+419,ECM/Gen.4,Misfires: Cyl. 2,13965524,,None,0,test,vynechy zapalovani (Gen.4) – overit podporu
+420,DQ200,Pressure supply: actual pressure: AD value,13965212,,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+421,DL382,Clutch 1 Actual pressure raw value,13965273,bar,None,0,off,
+422,DL382,Clutch 2 Actual pressure raw value,13965274,bar,None,0,off,
+423,TCM,Number of times the permitted centrifugal oil temperature has been exceeded,13965277,,None,0,check,pocitadla prekroceni teploty oleje odstredivky DSG
+424,TCM,Number of warnings due to increased centrifugal oil temperature,13965278,,None,0,check,pocitadla prekroceni teploty oleje odstredivky DSG
+425,DQ250,Correction values for main pressure adaptation: low pressure on clutch 1,13965279,bar,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+426,DQ250,Correction values for main pressure adaptation: high pressure on clutch 1,13965280,bar,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+427,DQ250,Correction values for main pressure adaptation: low pressure on clutch 2,13965281,bar,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+428,DQ250,Correction values for main pressure adaptation: high pressure on clutch 2,13965282,bar,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+429,DQ200,Pressure supply: actual pressure,13965283,bar,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+430,TCM,Hybrid temperature,13965284,°C,None,0,off,
+431,DQ250,Correction values for main pressure adaptation,13965285,bar,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+432,DL382,Clutch_0 temperature calculated,13965287,°C,None,0,off,
+433,DL382,Pressure sensor 1 temperature,13965288,°C,None,0,off,
+434,DL382,Pressure sensor 2 temperature,13965289,°C,None,0,off,
+435,DL382,Clutch 1 Absolute pressure,13965290,bar,None,0,off,
+436,DL382,Clutch 2 Absolute pressure,13965291,bar,None,0,off,
+437,DL382,Stiffness point pressure Clutch 1,13965292,bar,None,0,off,
+438,DL382,Stiffness point pressure Clutch 2,13965293,bar,None,0,off,
+439,DL382,Clutch 0 Commanded pressure offset,13965294,bar,None,0,off,
+440,DL382,Clutch temperature calculated,13965295,°C,None,0,off,
+441,TCM,Engine torque [AT],13965296,N·m,None,0,off,
+442,TCM,Transmission Input Speed,13965297,rpm,None,0,test,obecny TCM – overit u DQ381
+443,TCM,AT Input speed,13965298,rpm,None,0,off,
+444,TCM,Transmission Output Speed,13965299,rpm,None,0,test,obecny TCM – overit u DQ381
+445,TCM,AT Output speed,13965300,rpm,None,0,off,
+446,TCM,Current gear,13965306,,None,0,test,obecna varianta aktualniho kvaltu – vyzkouset pro DQ381
+447,TCM,Torque converter slip [AT],13965309,rpm,None,0,off,
+448,DL382,Clutch 1 Pressure,13965310,bar,None,0,off,
+449,DL382,Clutch 2 Pressure,13965311,bar,None,0,off,
+450,DQ200,Actual position Clutch 1 duty cycle factor 1,13965328,%,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+451,DQ200,Actual position Clutch 1 duty cycle factor 2,13965329,%,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+452,DQ200,Actual position Clutch 2 duty cycle factor 1,13965331,%,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+453,DQ200,Actual position Clutch 2 duty cycle factor 2,13965332,%,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+454,DQ250,Lower adapted coupling point Clutch 1 from kiss point adaptation,13965347,A,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+455,DQ250,Lower adapted coupling point Clutch 2 from kiss point adaptation,13965348,A,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+456,DQ250,Upper adapted coupling point Clutch 1 from microslip adaptation,13965349,A,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+457,DQ250,Upper adapted coupling point Clutch 2 from microslip adaptation,13965350,A,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+458,DQ200,Clutch 2: adaptation: clutch end position open,13965351,mm,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+459,DQ200,Clutch 2: adaptation: clutch end position closed,13965352,mm,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+460,DQ200,Clutch 1: adaptation: basic characteristics point 0 position,13965353,mm,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+461,DQ200,Clutch 1: adaptation: basic characteristics point 1 position,13965354,mm,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+462,TCM,Launch control counter var.2,13965361,,None,0,check,
+463,DQ200,Clutch 2: adaptation: basic characteristics point 0 position,13965362,mm,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+464,DQ200,Clutch 2: adaptation: basic characteristics point 1 position,13965363,mm,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+465,DQ200,Clutch 2: adaptation: basic characteristics point 2 position,13965364,mm,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+466,DQ200,Clutch 2: adaptation: basic characteristics point 3 position,13965365,mm,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+467,DQ200,Clutch 1: adaptation: clutch end position open,13965366,mm,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+468,DQ200,Clutch 1: adaptation: clutch end position closed,13965367,mm,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+469,DQ200,Clutch 1: adaptation: basic characteristics point 2 position,13965368,mm,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+470,DQ200,Clutch 1: adaptation: basic characteristics point 3 position,13965369,mm,None,0,test,varianta DSG – rozhodne test podporovanych senzoru
+471,TCM,Maximum ATF temperature over lifetime (AT),13965304,°C,None,0,off,
+472,TCM,Engine Torque,13965370,N·m,None,0,test,obecny TCM – overit u DQ381
+473,TCM,Torque Converter Lockup Clutch Status,13965371,,None,0,off,
+474,DL382,Input shaft speed #1,13965372,rpm,None,0,off,
+475,DL382,Input shaft speed #2,13965373,rpm,None,0,off,
+476,TPMS,Tire #1 position,13605100,,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+477,TPMS,Tire #2 position,13605106,,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+478,TPMS,Tire #3 position,13605112,,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+479,TPMS,Tire #4 position,13605118,,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+480,4WD,Haldex differential lock-up,13965398,,None,0,off,Haldex – vuz ma pohon jen predni napravy
+481,4WD,Haldex mode,13965399,,None,0,off,Haldex – vuz ma pohon jen predni napravy
+482,4WD,Front left wheel speed,13965400,km/h,None,0,off,Haldex – vuz ma pohon jen predni napravy
+483,4WD,Front right wheel speed,13965401,km/h,None,0,off,Haldex – vuz ma pohon jen predni napravy
+484,4WD,Rear left wheel speed,13965402,km/h,None,0,off,Haldex – vuz ma pohon jen predni napravy
+485,4WD,Rear right wheel speed,13965403,km/h,None,0,off,Haldex – vuz ma pohon jen predni napravy
+486,4WD,Haldex friction disc temperature,13965404,°C,None,0,off,Haldex – vuz ma pohon jen predni napravy
+487,4WD,Haldex current,13965405,A,None,0,off,Haldex – vuz ma pohon jen predni napravy
+488,4WD,Haldex PWM,13965406,%,None,0,off,Haldex – vuz ma pohon jen predni napravy
+489,4WD,Haldex voltage,13965407,V,None,0,off,Haldex – vuz ma pohon jen predni napravy
+490,4WD,Haldex Front:Rear speed difference,13965408,km/h,None,0,off,Haldex – vuz ma pohon jen predni napravy
+491,4WD,Haldex temperature,13965409,°C,None,0,off,Haldex – vuz ma pohon jen predni napravy
+492,4WD,Haldex duty,13965410,%,None,0,off,Haldex – vuz ma pohon jen predni napravy
+493,GATE,Odometer,13965414,km,None,0,check,
+494,DASH,Vzdálenost do vyprázdnění,13965441,km,None,0,check,
+495,DASH,Průměrná spotřeba paliva,13965442,L/100km,None,0,check,
+496,DASH,Vstupní úroveň paliva v.1,13965443,L,None,0,check,
+497,DASH,Cabin temperature,13965445,°C,None,0,off,
+498,CLIMATE,Rear deflector temperature,13965465,°C,None,0,off,
+499,ASSIST,Distance to detected pedestrian,13965472,m,None,0,off,
+500,ECALL,eCall Battery Charge Level,13965514,%,None,0,check,
+501,ECALL,eCall Battery Charge Status: Normal,13965515,%,None,0,check,
+502,ECALL,eCall Battery Charge Status: Critical,13965516,%,None,0,check,
+503,ECM,Knock retard #1 (var.2),13965525,°,None,0,test,korekce zazehu (var.2) – overit proti var.1
+504,ECM,Knock retard #2 (var.2),13965526,°,None,0,test,korekce zazehu (var.2) – overit proti var.1
+505,ECM,Knock retard #3 (var.2),13965527,°,None,0,test,korekce zazehu (var.2) – overit proti var.1
+506,ECM,Knock retard #4 (var.2),13965528,°,None,0,test,korekce zazehu (var.2) – overit proti var.1
+507,TPMS,Tire #1 sensor id,13965374,,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+508,TPMS,Tire #1 current pressure,13965376,bar,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+509,TPMS,Tire #1 specified pressure,13965377,bar,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+510,TPMS,Tire #1 warning pressure,13965378,bar,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+511,TPMS,Tire #1 temperature,13965379,°C,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+512,TPMS,Tire #2 sensor id,13965380,,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+513,TPMS,Tire #2 current pressure,13965382,bar,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+514,TPMS,Tire #2 specified pressure,13965383,bar,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+515,TPMS,Tire #2 warning pressure,13965384,bar,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+516,TPMS,Tire #2 temperature,13965385,°C,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+517,TPMS,Tire #3 sensor id,13965386,,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+518,TPMS,Tire #3 current pressure,13965388,bar,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+519,TPMS,Tire #3 specified pressure,13965389,bar,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+520,TPMS,Tire #3 warning pressure,13965390,bar,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+521,TPMS,Tire #3 temperature,13965391,°C,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+522,TPMS,Tire #4 sensor id,13965392,,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+523,TPMS,Tire #4 current pressure,13965394,bar,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+524,TPMS,Tire #4 specified pressure,13965395,bar,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+525,TPMS,Tire #4 warning pressure,13965396,bar,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+526,TPMS,Tire #4 temperature,13965397,°C,None,0,off,prime TPMS cidla – Octavia 3 ma nejspis neprime TPMS (ABS)
+527,TCM,CVT Gear ratio,13965202,,None,1,off,CVT – nerelevantni
+528,TCM,Converter Loss Torque,13965207,N·m,None,1,off,menic momentu – jen klasicky automat

@@ -1,0 +1,1075 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Car Scanner návod</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --surface: #ffffff; --text: #1b1f24; --muted: #5b6470;
+    --line: #e1e5ea; --accent: #0b6bcb; --accent-soft: #e6f0fb;
+    --warn-bg: #fff4e5; --warn-line: #f0b252; --ok-bg: #eaf7ee; --ok-line: #4caf6a;
+    --code-bg: #eef1f4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #111418; --surface: #1a1f25; --text: #e6e9ed; --muted: #9aa4af;
+      --line: #2a313a; --accent: #5aa6f0; --accent-soft: #1c2a3a;
+      --warn-bg: #2e2414; --warn-line: #b5822f; --ok-bg: #16281c; --ok-line: #3f8f57;
+      --code-bg: #242b33;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #111418; --surface: #1a1f25; --text: #e6e9ed; --muted: #9aa4af;
+    --line: #2a313a; --accent: #5aa6f0; --accent-soft: #1c2a3a;
+    --warn-bg: #2e2414; --warn-line: #b5822f; --ok-bg: #16281c; --ok-line: #3f8f57;
+    --code-bg: #242b33;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { position: sticky; top: 0; z-index: 5; background: var(--surface);
+           border-bottom: 1px solid var(--line); }
+  .bar { max-width: 1100px; margin: 0 auto; padding: 10px 16px; display: flex;
+         align-items: center; gap: 12px; flex-wrap: wrap; }
+  .bar h1 { font-size: 18px; margin: 0; flex: 1; }
+  .langs button { border: 1px solid var(--line); background: var(--surface); color: var(--text);
+                  padding: 4px 12px; border-radius: 6px; cursor: pointer; font: inherit; font-size: 14px; }
+  .langs button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 16px; display: grid;
+          grid-template-columns: 230px 1fr; gap: 32px; }
+  nav.toc { position: sticky; top: 64px; align-self: start; font-size: 14px; }
+  nav.toc a { display: block; color: var(--muted); text-decoration: none; padding: 3px 0; }
+  nav.toc a:hover { color: var(--accent); }
+  main { min-width: 0; }
+  section { background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+            padding: 20px 22px; margin-bottom: 20px; scroll-margin-top: 70px; }
+  h2 { margin: 0 0 8px; font-size: 22px; }
+  h3 { margin: 18px 0 6px; font-size: 17px; }
+  p, li { max-width: 72ch; }
+  main a { color: var(--accent); }
+  code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; font-size: 0.92em; }
+  .path { font-weight: 600; color: var(--accent); }
+  .note { border-left: 4px solid var(--warn-line); background: var(--warn-bg);
+          padding: 10px 14px; border-radius: 6px; margin: 12px 0; }
+  .tip { border-left: 4px solid var(--ok-line); background: var(--ok-bg);
+         padding: 10px 14px; border-radius: 6px; margin: 12px 0; }
+  .shots { display: flex; gap: 12px; overflow-x: auto; padding: 8px 2px 12px; scroll-snap-type: x mandatory; }
+  .shots figure { margin: 0; flex: 0 0 200px; scroll-snap-align: start; }
+  .shots img { width: 200px; height: auto; border-radius: 10px; border: 1px solid var(--line);
+               display: block; cursor: zoom-in; background: #000; }
+  .shots figcaption { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; margin: 8px 0; }
+  th, td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; }
+  pre.trace { background: var(--code-bg); border-radius: 8px; padding: 12px 14px; overflow-x: auto;
+              font: 13px/1.5 ui-monospace, "Cascadia Mono", Consolas, monospace; margin: 8px 0 12px; }
+  .bytes { display: flex; flex-wrap: wrap; gap: 4px; margin: 8px 0 4px; }
+  .bytes span { font: 13px ui-monospace, Consolas, monospace; padding: 4px 6px; border-radius: 5px;
+                border: 1px solid var(--line); text-align: center; min-width: 34px; }
+  .bytes small { display: block; font: 10px system-ui, sans-serif; color: var(--muted); }
+  .b-id { background: var(--accent-soft); }
+  .b-pci { background: var(--warn-bg); }
+  .b-sid { background: var(--ok-bg); }
+  .b-data { background: var(--surface); font-weight: 700; }
+  .layers { display: grid; gap: 6px; margin: 10px 0; max-width: 620px; }
+  .layers div { border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; background: var(--surface); }
+  .layers b { color: var(--accent); }
+  .lb { position: fixed; inset: 0; background: rgba(0,0,0,.85); display: none;
+        align-items: center; justify-content: center; z-index: 20; cursor: zoom-out; }
+  .lb.open { display: flex; }
+  .lb img { max-width: 94vw; max-height: 94vh; border-radius: 10px; }
+  [data-l="en"] { display: none; }
+  html[lang="en"] [data-l="cs"] { display: none; }
+  html[lang="en"] [data-l="en"] { display: revert; }
+  footer { color: var(--muted); font-size: 13px; text-align: center; padding: 20px 16px 40px; }
+  @media (max-width: 760px) {
+    .wrap { grid-template-columns: 1fr; gap: 0; }
+    nav.toc { display: none; }
+    section { padding: 16px; }
+    .shots figure { flex-basis: 160px; }
+    .shots img { width: 160px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1><span data-l="cs">Car Scanner ELM OBD2 – návod</span><span data-l="en">Car Scanner ELM OBD2 – guide</span></h1>
+    <div class="langs" role="group" aria-label="Language">
+      <button type="button" data-set="cs" aria-pressed="true">CZ</button>
+      <button type="button" data-set="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+<nav class="toc" aria-label="Obsah">
+  <a href="#uvod"><span data-l="cs">Úvod</span><span data-l="en">Introduction</span></a>
+  <a href="#hlavni"><span data-l="cs">Hlavní obrazovka</span><span data-l="en">Main screen</span></a>
+  <a href="#nastaveni"><span data-l="cs">Nastavení – přehled</span><span data-l="en">Settings overview</span></a>
+  <a href="#vozidlo"><span data-l="cs">Vozidlo a profil</span><span data-l="en">Vehicle and profile</span></a>
+  <a href="#adapter"><span data-l="cs">Adaptér ELM327</span><span data-l="en">ELM327 adapter</span></a>
+  <a href="#log"><span data-l="cs">Log komunikace</span><span data-l="en">Communication log</span></a>
+  <a href="#protokol"><span data-l="cs">Jak funguje komunikace</span><span data-l="en">How communication works</span></a>
+  <a href="#rozhrani"><span data-l="cs">Rozhraní a jednotky</span><span data-l="en">Interface and units</span></a>
+  <a href="#deska"><span data-l="cs">Palubní deska</span><span data-l="en">Dashboard</span></a>
+  <a href="#volby"><span data-l="cs">Volby vozidla, spotřeba</span><span data-l="en">Vehicle options, fuel</span></a>
+  <a href="#senzory"><span data-l="cs">Senzory</span><span data-l="en">Sensors</span></a>
+  <a href="#zaloha"><span data-l="cs">Záloha, terminál, info</span><span data-l="en">Backup, terminal, info</span></a>
+  <a href="#zaznam"><span data-l="cs">Statistika a záznam dat</span><span data-l="en">Statistics and recording</span></a>
+  <a href="#demo"><span data-l="cs">Funkce s připojením (Demo)</span><span data-l="en">Connected features (Demo)</span></a>
+  <a href="#torque"><span data-l="cs">Torque a Android Auto</span><span data-l="en">Torque and Android Auto</span></a>
+  <a href="#bezpecnost"><span data-l="cs">Bezpečnost</span><span data-l="en">Safety</span></a>
+  <a href="#chybi"><span data-l="cs">Co v návodu zatím chybí</span><span data-l="en">Not covered yet</span></a>
+  <a href="#slovnik"><span data-l="cs">Slovníček a odkazy</span><span data-l="en">Glossary and links</span></a>
+</nav>
+
+<main>
+
+<section id="uvod">
+  <h2><span data-l="cs">Úvod</span><span data-l="en">Introduction</span></h2>
+  <div data-l="cs">
+    <p>Návod popisuje aplikaci <b>Car Scanner Pro</b> (Android, verze 2.2.42, databáze profilů 2.2.42) s adaptérem
+    Vgate vLinker (Bluetooth). Screenshoty jsou z Škody Octavia 3 (2018, 2.0 TSI DKZA, DSG DQ381) s profilem
+    <i>Skoda MQB: TSI/TFSI EA888 Gen.3B, EA888 Evo4 (Gen.4) 2.0L (with Miller cycle)</i>.</p>
+    <p>Osobní údaje (VIN, MAC adresa adaptéru, kontakty, stavový řádek) jsou ve screenshotech rozmazané.
+    Na obrázek klepněte pro zvětšení; řady screenshotů se posouvají do strany.</p>
+    <p>Tato verze pokrývá obrazovky dostupné <b>bez připojení k autu</b>. Palubní deska s hodnotami, živá data,
+    chybové kódy a řídicí jednotky budou doplněny.</p>
+  </div>
+  <div data-l="en">
+    <p>This guide covers the <b>Car Scanner Pro</b> app (Android, version 2.2.42, profile database 2.2.42) with a
+    Vgate vLinker Bluetooth adapter. Screenshots come from a Škoda Octavia 3 (2018, 2.0 TSI DKZA, DSG DQ381) using the
+    <i>Skoda MQB: TSI/TFSI EA888 Gen.3B, EA888 Evo4 (Gen.4) 2.0L (with Miller cycle)</i> connection profile.</p>
+    <p>Personal data (VIN, adapter MAC address, contacts, status bar) is blurred. Tap a screenshot to enlarge it;
+    screenshot rows scroll sideways.</p>
+    <p>This version covers the screens available <b>without a car connection</b>. Dashboard values, live data,
+    trouble codes and control units will be added later.</p>
+  </div>
+</section>
+
+<section id="hlavni">
+  <h2><span data-l="cs">Hlavní obrazovka</span><span data-l="en">Main screen</span></h2>
+  <div data-l="cs">
+    <p>Dlaždice vlevo nahoře (Palubní deska, Živá data, Všechny senzory, DTC, Zmrazená data, Monitory, Identifikátory ECU,
+    Testy zrychlení, Emisní testy) jsou šedé, dokud aplikace není připojená. Bez připojení fungují <b>vozidlo</b>,
+    <b>Nastavení</b>, <b>Statistika</b> a <b>Záznam dat</b>.</p>
+    <p>Dole je stav připojení k adaptéru (ELM) a k řídicí jednotce (ECU), tlačítko <b>PŘIPOJIT</b> a režim <b>Demo</b>
+    (simulované vozidlo – zapisuje se do záznamů a statistik, proto ho používejte uvážlivě).</p>
+  </div>
+  <div data-l="en">
+    <p>The tiles (Dashboard, Live data, All sensors, DTC, Freeze frame, Monitors, ECU identifiers, Acceleration tests,
+    Emission tests) stay grey until the app is connected. Without a connection you can use the <b>vehicle</b>,
+    <b>Settings</b>, <b>Statistics</b> and <b>Data recording</b>.</p>
+    <p>At the bottom you see the adapter (ELM) and control unit (ECU) connection state, the <b>CONNECT</b> button and
+    <b>Demo</b> mode (a simulated car – it writes into recordings and statistics, so use it with care).</p>
+  </div>
+  <div class="shots" data-shots="01-hlavni|01-main"></div>
+</section>
+
+<section id="nastaveni">
+  <h2><span data-l="cs">Nastavení – přehled</span><span data-l="en">Settings overview</span></h2>
+  <div data-l="cs">
+    <p><span class="path">Hlavní obrazovka → Nastavení</span>. Nejdůležitější položky: vozidlo, adaptér, profil připojení,
+    palubní deska, spotřeba paliva, senzory, záloha a terminál.</p>
+  </div>
+  <div data-l="en">
+    <p><span class="path">Main screen → Settings</span>. Key items: vehicle, adapter, connection profile, dashboard,
+    fuel consumption, sensors, backup and terminal.</p>
+  </div>
+  <div class="shots" data-shots="02-nastaveni|02-settings;02-nastaveni-2|02-settings-2"></div>
+</section>
+
+<section id="vozidlo">
+  <h2><span data-l="cs">Vozidlo a profil připojení</span><span data-l="en">Vehicle and connection profile</span></h2>
+  <div data-l="cs">
+    <p><span class="path">Nastavení → Moje vozidla</span>: seznam vozidel, tlačítkem <b>Použít</b> přepnete aktivní vůz.
+    Každé vozidlo má vlastní profil, nastavení a statistiky.</p>
+    <p><span class="path">Nastavení → Profil připojení</span>: nejdřív značka, potom konkrétní profil (motor/platforma).
+    Profil určuje, které výrobcové senzory (např. <code>[ECM]</code>, <code>[TCM]</code>, <code>[DASH]</code>) aplikace zná.</p>
+    <div class="tip">Pro MQB vozy vyberte profil podle kódu motoru. Pro DKZA (2.0 TSI 140 kW) je to
+    „MQB: TSI/TFSI EA888 Gen.3B, EA888 Evo4 (Gen.4) 2.0L (with Miller cycle)“.</div>
+  </div>
+  <div data-l="en">
+    <p><span class="path">Settings → My cars</span>: list of vehicles; <b>Use</b> switches the active car. Each car keeps
+    its own profile, settings and statistics.</p>
+    <p><span class="path">Settings → Connection profile</span>: pick the brand first, then the exact profile
+    (engine/platform). The profile defines which manufacturer sensors (e.g. <code>[ECM]</code>, <code>[TCM]</code>,
+    <code>[DASH]</code>) the app knows.</p>
+    <div class="tip">For MQB cars choose the profile by engine code. For DKZA (2.0 TSI 140 kW) it is
+    “MQB: TSI/TFSI EA888 Gen.3B, EA888 Evo4 (Gen.4) 2.0L (with Miller cycle)”.</div>
+  </div>
+  <div class="shots" data-shots="20-moje-vozidla|20-my-cars;21-profil-pripojeni|=;21-profil-pripojeni-2|=;21-profil-pripojeni-4|="></div>
+</section>
+
+<section id="adapter">
+  <h2><span data-l="cs">Adaptér OBDII ELM327</span><span data-l="en">OBDII ELM327 adapter</span></h2>
+  <div data-l="cs">
+    <p><span class="path">Nastavení → Adaptér OBDII ELM327</span>: typ připojení (Wi-Fi, Bluetooth, Bluetooth LE, USB)
+    a konkrétní zařízení. vLinker umí Bluetooth i Bluetooth LE; aplikace doporučuje BLE, pokud adaptér umí obojí.</p>
+    <ul>
+      <li><b>Připojit při spuštění</b> – po otevření aplikace se rovnou připojí.</li>
+      <li><b>Optimalizace baterie</b> – pro stabilní běh na pozadí ji pro Car Scanner vypněte.</li>
+      <li><b>Pracovat na pozadí</b> – spustí službu na pozadí (potřeba pro záznam při zhasnutém displeji).</li>
+      <li><b>Exportovat protokol</b> – log komunikace s adaptérem, viz další kapitola.</li>
+    </ul>
+    <h3>Podstránky</h3>
+    <table>
+      <tr><th>Položka</th><th>K čemu</th></tr>
+      <tr><td>Nastavení připojení ECU</td><td>Protokol (Automaticky), časování ELM327, ATST, příkaz pro kontrolu připojení, OBDonUDS, předpona režimu $01.</td></tr>
+      <tr><td>Optimalizace</td><td>Rychlejší čtení (AT/ST/VT, očekávaný počet odpovědí, hardwarové vícerámcové dotazy u STN/vLinker, ATCRA).</td></tr>
+      <tr><td>Pokročilá nastavení ELM327</td><td>Detekce klonů, časové limity, počet pokusů, chování při „NO DATA“, metoda Bluetooth připojení.</td></tr>
+      <tr><td>Opravy kompatibility</td><td>Řízení toku CAN, Nissan/Mitsubishi/Daihatsu režimy, nastavení pro kódování VAG (TP 2.0).</td></tr>
+      <tr><td>Chyby ELM327</td><td>Počitadla neúplných odpovědí, restartů adaptéru a nepodporovaných AT příkazů – užitečné při potížích.</td></tr>
+    </table>
+    <div class="note">Podstránky měňte jen při problémech s připojením. Výchozí hodnoty jsou pro běžné použití správně.</div>
+  </div>
+  <div data-l="en">
+    <p><span class="path">Settings → Adapter OBDII ELM327</span>: connection type (Wi-Fi, Bluetooth, Bluetooth LE, USB)
+    and the device. The vLinker supports both Bluetooth and Bluetooth LE; the app recommends BLE when both work.</p>
+    <ul>
+      <li><b>Connect on launch</b> – connects as soon as the app opens.</li>
+      <li><b>Battery optimization</b> – disable it for Car Scanner for stable background operation.</li>
+      <li><b>Work in background</b> – starts a background service (needed for recording with the screen off).</li>
+      <li><b>Export log</b> – adapter communication log, see the next chapter.</li>
+    </ul>
+    <h3>Sub-pages</h3>
+    <table>
+      <tr><th>Item</th><th>Purpose</th></tr>
+      <tr><td>ECU connection settings</td><td>Protocol (Auto), ELM327 timing, ATST, connection-check PID, OBDonUDS, mode $01 prefix.</td></tr>
+      <tr><td>Optimizations</td><td>Faster reading (AT/ST/VT, expected response count, hardware multi-frame requests on STN/vLinker, ATCRA).</td></tr>
+      <tr><td>Advanced ELM327 settings</td><td>Clone detection, timeouts, retries, “NO DATA” handling, Bluetooth connection method.</td></tr>
+      <tr><td>Compatibility patches</td><td>CAN flow control, Nissan/Mitsubishi/Daihatsu modes, VAG coding options (TP 2.0).</td></tr>
+      <tr><td>ELM327 errors</td><td>Counters of incomplete responses, adapter restarts and unsupported AT commands – handy for troubleshooting.</td></tr>
+    </table>
+    <div class="note">Only change the sub-pages if you have connection problems. Defaults are fine for normal use.</div>
+  </div>
+  <div class="shots" data-shots="10-adapter|=;10-adapter-2|=;11-nastaveni-pripojeni-ecu|11-ecu-connection-settings;11-nastaveni-pripojeni-ecu-2|11-ecu-connection-settings-2;11-optimalizace|11-optimizations;11-pokrocila-nastaveni-elm327|11-advanced-elm327-settings;11-pokrocila-nastaveni-elm327-2|11-advanced-elm327-settings-2;11-opravy-kompatibility|11-compatibility-patches;11-opravy-kompatibility-2|11-compatibility-patches-2;11-opravy-kompatibility-3|11-compatibility-patches-3;11-chyby-elm327|11-elm327-errors"></div>
+</section>
+
+<section id="log">
+  <h2><span data-l="cs">Log komunikace (Exportovat protokol)</span><span data-l="en">Communication log (Export log)</span></h2>
+  <div data-l="cs">
+    <p><span class="path">Nastavení → Adaptér OBDII ELM327 → (dole) Exportovat protokol</span> otevře systémové sdílení
+    se souborem <code>log.txt</code>. Uložte ho např. přes <b>Moje soubory → Uložit do</b> (složka Download).</p>
+    <ul>
+      <li>Log se zapisuje automaticky, nic se nezapíná. Je <b>kumulativní</b> (obsahuje i starší relace), řazený po relacích
+      s hlavičkou <code>===== LOG STARTED: datum =====</code>.</li>
+      <li>Obsahuje každý příkaz a odpověď: <code>ATSH7E0</code> (hlavička), <code>2214CB</code> (dotaz),
+      <code>7E8 04 62 14 CB 05</code> (odpověď). Z toho lze odvodit vlastní PID pro jiné aplikace (Torque Pro).</li>
+      <li>Záznamy jízd (<span class="path">Záznam dat</span>) obsahují jen hodnoty, ne surovou komunikaci.</li>
+    </ul>
+    <div class="note">Log obsahuje VIN a případně i servisní operace (mazání chyb, kódování). Nesdílejte ho veřejně.</div>
+    <div class="tip">Příklad využití: kvalt z řídicí jednotky motoru je v logu dotaz <code>2214CB</code> na hlavičku
+    <code>7E0</code>; v Torque Pro rovnice <code>SIGNED(A)</code> (R = −1, P/N = 0, 1–7).</div>
+  </div>
+  <div data-l="en">
+    <p><span class="path">Settings → Adapter OBDII ELM327 → (bottom) Export log</span> opens the system share sheet with
+    <code>log.txt</code>. Save it e.g. via <b>My Files → Save to</b> (Download folder).</p>
+    <ul>
+      <li>Logging is always on; nothing needs enabling. The log is <b>cumulative</b> (older sessions included), split into
+      sessions with a <code>===== LOG STARTED: date =====</code> header.</li>
+      <li>It contains every command and response: <code>ATSH7E0</code> (header), <code>2214CB</code> (request),
+      <code>7E8 04 62 14 CB 05</code> (response). You can derive custom PIDs for other apps (Torque Pro) from it.</li>
+      <li>Trip recordings (<span class="path">Data recording</span>) contain values only, not raw communication.</li>
+    </ul>
+    <div class="note">The log contains the VIN and possibly service operations (DTC clearing, coding). Don't share it publicly.</div>
+    <div class="tip">Example: the engine ECU gear is request <code>2214CB</code> on header <code>7E0</code>; in Torque Pro
+    use equation <code>SIGNED(A)</code> (R = −1, P/N = 0, 1–7).</div>
+  </div>
+  <div class="shots" data-shots="10-adapter-2|=;12-export-protokolu|12-export-log"></div>
+</section>
+
+<section id="protokol">
+  <h2><span data-l="cs">Jak funguje komunikace (pro pokročilé)</span><span data-l="en">How communication works (advanced)</span></h2>
+
+  <div data-l="cs">
+    <p>Kapitola vysvětluje, co se děje mezi telefonem a autem, aby šel číst <a href="#log">log komunikace</a>
+    a odvodit z něj vlastní PID. Ukázky jsou skutečné řádky z logu této Octavie (mezery doplněny pro čitelnost).</p>
+
+    <h3>Vrstvy</h3>
+    <div class="layers">
+      <div><b>Aplikace</b> – Car Scanner / Torque: posílá textové příkazy, počítá hodnoty podle vzorců.</div>
+      <div><b>Adaptér ELM327</b> (vLinker) – převádí text (Bluetooth sériová linka) na CAN rámce; řídí se <code>AT</code> příkazy.</div>
+      <div><b>Diagnostické služby</b> – <b>OBD-II</b> (režimy 01, 09…, emisní data, všechna auta) a <b>UDS</b> (ISO 14229, služby 22, 19…, výrobcová data).</div>
+      <div><b>Transport ISO-TP</b> (ISO 15765-2) – dělí delší zprávy do 8bajtových rámců.</div>
+      <div><b>CAN</b> – sběrnice v OBD konektoru (piny 6 a 14), 500 kbit/s, 11bitové identifikátory (ISO 15765-4).</div>
+    </div>
+
+    <h3>Adresy (CAN ID)</h3>
+    <table>
+      <tr><th>ID dotazu</th><th>ID odpovědi</th><th>Kdo</th></tr>
+      <tr><td><code>7DF</code></td><td>všechny <code>7E8–7EF</code></td><td>funkční (broadcast) dotaz – odpoví každá emisní jednotka</td></tr>
+      <tr><td><code>7E0</code></td><td><code>7E8</code></td><td>řídicí jednotka motoru (ECM, Simos 18)</td></tr>
+      <tr><td><code>7E1</code></td><td><code>7E9</code></td><td>řídicí jednotka převodovky (TCM, DSG DQ381)</td></tr>
+      <tr><td>např. <code>710</code>, <code>714</code></td><td>jiné (např. <code>77A</code>, <code>77E</code>)</td><td>další jednotky VAG za gateway (brána, přístroje…) – adresy se liší podle vozu</td></tr>
+    </table>
+    <p>Odpověď fyzické adresy je obvykle <i>ID dotazu + 8</i>. U VAG prochází diagnostika přes gateway (J533), která
+    na OBD konektor propouští jen diagnostickou komunikaci.</p>
+
+    <h3>Příkazy adaptéru ELM327</h3>
+    <table>
+      <tr><th>Příkaz</th><th>Význam</th></tr>
+      <tr><td><code>ATZ</code>, <code>ATE0</code></td><td>reset adaptéru, vypnout echo</td></tr>
+      <tr><td><code>ATSP6</code> / <code>ATSP0</code></td><td>protokol ISO 15765-4 CAN 11bit 500 kbit/s / automaticky</td></tr>
+      <tr><td><code>ATH1</code></td><td>zobrazovat CAN ID v odpovědích (proto log obsahuje <code>7E8…</code>)</td></tr>
+      <tr><td><code>ATSH7E0</code></td><td>nastavit ID, na které jdou další dotazy (hlavička)</td></tr>
+      <tr><td><code>ATCRA77A</code> / <code>ATAR</code></td><td>přijímat jen odpovědi s daným ID / automatický filtr</td></tr>
+      <tr><td><code>ATFCSH7E1</code></td><td>ID pro rámce řízení toku (flow control) při dlouhých odpovědích</td></tr>
+      <tr><td><code>ATST64</code></td><td>časový limit čekání na odpověď (×4 ms)</td></tr>
+    </table>
+    <p>Číslice na konci dotazu (např. <code>2214CB1</code>) říká adaptéru, kolik odpovědí čekat – zrychlí to čtení.</p>
+
+    <h3>Rámec ISO-TP</h3>
+    <p>První bajt dat (PCI) říká typ rámce: <code>0x</code> jednorámcová zpráva (x = délka),
+    <code>1x xx</code> první rámec dlouhé zprávy (12bitová délka), <code>2x</code> pokračovací rámec (x = pořadí),
+    <code>30</code> řízení toku. Nevyužité bajty se vyplňují (u VAG <code>AA</code>).</p>
+
+    <h3>Příklad 1 – OBD-II režim 01 (více PID najednou)</h3>
+<pre class="trace">&gt;01050C0D4
+7E8 10 08 41 05 3F 0C 00 00
+7E8 21 0D 00 AA AA AA AA AA
+7E9 10 08 41 05 3F 0C 00 00
+7E9 21 0D 00 AA AA AA AA AA</pre>
+    <p>Dotaz na funkční adresu <code>7DF</code>: PID <code>05</code> (teplota kapaliny), <code>0C</code> (otáčky),
+    <code>0D</code> (rychlost). Odpověď je dlouhá 8 bajtů (<code>10 08</code>), takže přijde ve dvou rámcích; odpověděly obě
+    jednotky. <code>41</code> = kladná odpověď na režim 01 (<i>služba + 0x40</i>). Hodnoty: <code>3F</code> → 63 − 40 = 23 °C,
+    <code>00 00</code> → 0 ot/min, <code>00</code> → 0 km/h.</p>
+
+    <h3>Příklad 2 – UDS služba 22 (kvalt)</h3>
+<pre class="trace">ATSH7E0
+&gt;2214CB1
+7E8 04 62 14 CB 05</pre>
+    <div class="bytes">
+      <span class="b-id">7E8<small>CAN ID</small></span>
+      <span class="b-pci">04<small>PCI: 4 B</small></span>
+      <span class="b-sid">62<small>22+40</small></span>
+      <span class="b-sid">14<small>DID</small></span>
+      <span class="b-sid">CB<small>DID</small></span>
+      <span class="b-data">05<small>A</small></span>
+    </div>
+    <p>Služba <code>22</code> (ReadDataByIdentifier) čte údaj s identifikátorem (DID) <code>14CB</code>. Kladná odpověď
+    <code>62</code> zopakuje DID a pak následují data. Bajt <code>05</code> = 5. rychlostní stupeň
+    (<code>FF</code> = −1 = zpátečka, <code>00</code> = P/N).</p>
+
+    <h3>Příklad 3 – dlouhá odpověď a „čekej“</h3>
+<pre class="trace">&gt;22F19E
+7E8 03 7F 22 78
+7E8 10 1C 62 F1 9E 45 56 5F
+7E8 21 45 43 4D 32 30 54 46
+…</pre>
+    <p><code>7F 22 78</code> = záporná odpověď s kódem <i>78 – response pending</i> (jednotka ještě pracuje). Pak přijde
+    první rámec (<code>10 1C</code> = 28 bajtů) a pokračovací rámce <code>21</code>, <code>22</code>… Data jsou ASCII text
+    (<code>45 56 5F 45 43 4D…</code> = „EV_ECM…“, identifikace datového souboru jednotky).</p>
+
+    <h3>Záporné odpovědi (NRC)</h3>
+    <table>
+      <tr><th>Odpověď</th><th>Význam</th></tr>
+      <tr><td><code>7F 22 31</code></td><td>requestOutOfRange – jednotka DID nezná (senzor nepodporován)</td></tr>
+      <tr><td><code>7F 22 78</code></td><td>responsePending – počkejte, odpověď přijde</td></tr>
+      <tr><td><code>7F xx 11</code> / <code>12</code></td><td>služba / podfunkce není podporována</td></tr>
+      <tr><td><code>7F xx 22</code></td><td>conditionsNotCorrect – nesplněné podmínky (např. motor neběží)</td></tr>
+      <tr><td><code>7F xx 33</code></td><td>securityAccessDenied – vyžaduje přihlášení (kódování)</td></tr>
+    </table>
+    <p>„NO DATA“ v logu znamená, že žádná jednotka neodpověděla (špatné ID nebo jednotka spí).</p>
+
+    <h3>Služby UDS – co je bezpečné</h3>
+    <table>
+      <tr><th>Služba</th><th>Odpověď</th><th>Funkce</th><th></th></tr>
+      <tr><td><code>22</code></td><td><code>62</code></td><td>čtení dat podle DID</td><td>čtení ✔</td></tr>
+      <tr><td><code>19</code></td><td><code>59</code></td><td>čtení chybových kódů</td><td>čtení ✔</td></tr>
+      <tr><td><code>3E</code></td><td><code>7E</code></td><td>Tester Present (udržení spojení)</td><td>✔</td></tr>
+      <tr><td><code>10</code></td><td><code>50</code></td><td>přepnutí diagnostické relace (01 výchozí, 03 rozšířená)</td><td>opatrně</td></tr>
+      <tr><td><code>14</code></td><td><code>54</code></td><td>mazání chybových kódů</td><td>mění stav ✖</td></tr>
+      <tr><td><code>2E</code></td><td><code>6E</code></td><td>zápis dat (kódování, adaptace)</td><td>zápis ✖</td></tr>
+      <tr><td><code>31</code></td><td><code>71</code></td><td>spuštění rutiny (servisní funkce)</td><td>✖</td></tr>
+      <tr><td><code>11</code></td><td><code>51</code></td><td>reset řídicí jednotky</td><td>✖</td></tr>
+      <tr><td><code>27</code></td><td><code>67</code></td><td>Security Access (přihlášení)</td><td>✖</td></tr>
+    </table>
+
+    <h3>Od logu k vlastnímu PID (Torque Pro)</h3>
+    <ol>
+      <li>V Car Scanneru zobrazte jen hledaný senzor a měňte jeho hodnotu (řazení, zahřátí…).</li>
+      <li>Exportujte log a najděte poslední <code>ATSH…</code> před dotazy <code>22xxxx</code>.</li>
+      <li>Najděte DID, jehož data se mění souběžně se zobrazenou hodnotou.</li>
+      <li>V Torque: <b>ModeAndPID</b> = <code>2214CB</code>, <b>Header</b> = <code>7E0</code>,
+      <b>Equation</b> s proměnnými <code>A</code>, <code>B</code>… = datové bajty za <code>62 14 CB</code>
+      (např. <code>SIGNED(A)</code>, <code>(A*256+B)/10</code>, <code>A-40</code>).</li>
+      <li>Ověřte v autě proti Car Scanneru.</li>
+    </ol>
+  </div>
+
+  <div data-l="en">
+    <p>This chapter explains what happens between the phone and the car so you can read the
+    <a href="#log">communication log</a> and derive custom PIDs from it. Examples are real lines from this Octavia's log
+    (spaces added for readability).</p>
+
+    <h3>Layers</h3>
+    <div class="layers">
+      <div><b>App</b> – Car Scanner / Torque: sends text commands, computes values from formulas.</div>
+      <div><b>ELM327 adapter</b> (vLinker) – turns text (Bluetooth serial link) into CAN frames; controlled by <code>AT</code> commands.</div>
+      <div><b>Diagnostic services</b> – <b>OBD-II</b> (modes 01, 09…, emission data, every car) and <b>UDS</b> (ISO 14229, services 22, 19…, manufacturer data).</div>
+      <div><b>ISO-TP transport</b> (ISO 15765-2) – splits longer messages into 8-byte frames.</div>
+      <div><b>CAN</b> – the bus on the OBD connector (pins 6 and 14), 500 kbit/s, 11-bit identifiers (ISO 15765-4).</div>
+    </div>
+
+    <h3>Addresses (CAN IDs)</h3>
+    <table>
+      <tr><th>Request ID</th><th>Response ID</th><th>Who</th></tr>
+      <tr><td><code>7DF</code></td><td>all <code>7E8–7EF</code></td><td>functional (broadcast) request – every emission ECU answers</td></tr>
+      <tr><td><code>7E0</code></td><td><code>7E8</code></td><td>engine control unit (ECM, Simos 18)</td></tr>
+      <tr><td><code>7E1</code></td><td><code>7E9</code></td><td>transmission control unit (TCM, DSG DQ381)</td></tr>
+      <tr><td>e.g. <code>710</code>, <code>714</code></td><td>other (e.g. <code>77A</code>, <code>77E</code>)</td><td>other VAG units behind the gateway (gateway, cluster…) – IDs vary by car</td></tr>
+    </table>
+    <p>A physical response is usually <i>request ID + 8</i>. On VAG cars diagnostics pass through the gateway (J533), which
+    only forwards diagnostic traffic to the OBD connector.</p>
+
+    <h3>ELM327 adapter commands</h3>
+    <table>
+      <tr><th>Command</th><th>Meaning</th></tr>
+      <tr><td><code>ATZ</code>, <code>ATE0</code></td><td>reset adapter, echo off</td></tr>
+      <tr><td><code>ATSP6</code> / <code>ATSP0</code></td><td>protocol ISO 15765-4 CAN 11-bit 500 kbit/s / automatic</td></tr>
+      <tr><td><code>ATH1</code></td><td>show CAN IDs in responses (that's why the log contains <code>7E8…</code>)</td></tr>
+      <tr><td><code>ATSH7E0</code></td><td>set the ID that following requests go to (header)</td></tr>
+      <tr><td><code>ATCRA77A</code> / <code>ATAR</code></td><td>receive only the given response ID / automatic filter</td></tr>
+      <tr><td><code>ATFCSH7E1</code></td><td>ID for flow-control frames during long responses</td></tr>
+      <tr><td><code>ATST64</code></td><td>response timeout (×4 ms)</td></tr>
+    </table>
+    <p>A trailing digit on a request (e.g. <code>2214CB1</code>) tells the adapter how many responses to expect – it speeds up reading.</p>
+
+    <h3>ISO-TP frame</h3>
+    <p>The first data byte (PCI) gives the frame type: <code>0x</code> single frame (x = length),
+    <code>1x xx</code> first frame of a long message (12-bit length), <code>2x</code> consecutive frame (x = sequence),
+    <code>30</code> flow control. Unused bytes are padded (<code>AA</code> on VAG).</p>
+
+    <h3>Example 1 – OBD-II mode 01 (several PIDs at once)</h3>
+<pre class="trace">&gt;01050C0D4
+7E8 10 08 41 05 3F 0C 00 00
+7E8 21 0D 00 AA AA AA AA AA
+7E9 10 08 41 05 3F 0C 00 00
+7E9 21 0D 00 AA AA AA AA AA</pre>
+    <p>Functional request to <code>7DF</code>: PID <code>05</code> (coolant temperature), <code>0C</code> (RPM),
+    <code>0D</code> (speed). The answer is 8 bytes long (<code>10 08</code>), so it arrives in two frames; both units answered.
+    <code>41</code> = positive response to mode 01 (<i>service + 0x40</i>). Values: <code>3F</code> → 63 − 40 = 23 °C,
+    <code>00 00</code> → 0 rpm, <code>00</code> → 0 km/h.</p>
+
+    <h3>Example 2 – UDS service 22 (gear)</h3>
+<pre class="trace">ATSH7E0
+&gt;2214CB1
+7E8 04 62 14 CB 05</pre>
+    <div class="bytes">
+      <span class="b-id">7E8<small>CAN ID</small></span>
+      <span class="b-pci">04<small>PCI: 4 B</small></span>
+      <span class="b-sid">62<small>22+40</small></span>
+      <span class="b-sid">14<small>DID</small></span>
+      <span class="b-sid">CB<small>DID</small></span>
+      <span class="b-data">05<small>A</small></span>
+    </div>
+    <p>Service <code>22</code> (ReadDataByIdentifier) reads data identifier (DID) <code>14CB</code>. The positive response
+    <code>62</code> echoes the DID followed by the data. Byte <code>05</code> = 5th gear
+    (<code>FF</code> = −1 = reverse, <code>00</code> = P/N).</p>
+
+    <h3>Example 3 – long response and “wait”</h3>
+<pre class="trace">&gt;22F19E
+7E8 03 7F 22 78
+7E8 10 1C 62 F1 9E 45 56 5F
+7E8 21 45 43 4D 32 30 54 46
+…</pre>
+    <p><code>7F 22 78</code> = negative response with code <i>78 – response pending</i> (the unit is still working). Then the
+    first frame arrives (<code>10 1C</code> = 28 bytes) followed by consecutive frames <code>21</code>, <code>22</code>…
+    The data is ASCII text (<code>45 56 5F 45 43 4D…</code> = “EV_ECM…”, the unit's data file identifier).</p>
+
+    <h3>Negative responses (NRC)</h3>
+    <table>
+      <tr><th>Response</th><th>Meaning</th></tr>
+      <tr><td><code>7F 22 31</code></td><td>requestOutOfRange – the unit doesn't know the DID (sensor unsupported)</td></tr>
+      <tr><td><code>7F 22 78</code></td><td>responsePending – wait, the answer will follow</td></tr>
+      <tr><td><code>7F xx 11</code> / <code>12</code></td><td>service / sub-function not supported</td></tr>
+      <tr><td><code>7F xx 22</code></td><td>conditionsNotCorrect – preconditions not met (e.g. engine off)</td></tr>
+      <tr><td><code>7F xx 33</code></td><td>securityAccessDenied – login required (coding)</td></tr>
+    </table>
+    <p>“NO DATA” in the log means no unit answered (wrong ID or the unit is asleep).</p>
+
+    <h3>UDS services – what is safe</h3>
+    <table>
+      <tr><th>Service</th><th>Response</th><th>Function</th><th></th></tr>
+      <tr><td><code>22</code></td><td><code>62</code></td><td>read data by DID</td><td>read ✔</td></tr>
+      <tr><td><code>19</code></td><td><code>59</code></td><td>read trouble codes</td><td>read ✔</td></tr>
+      <tr><td><code>3E</code></td><td><code>7E</code></td><td>Tester Present (keep-alive)</td><td>✔</td></tr>
+      <tr><td><code>10</code></td><td><code>50</code></td><td>diagnostic session control (01 default, 03 extended)</td><td>careful</td></tr>
+      <tr><td><code>14</code></td><td><code>54</code></td><td>clear trouble codes</td><td>changes state ✖</td></tr>
+      <tr><td><code>2E</code></td><td><code>6E</code></td><td>write data (coding, adaptations)</td><td>write ✖</td></tr>
+      <tr><td><code>31</code></td><td><code>71</code></td><td>routine control (service functions)</td><td>✖</td></tr>
+      <tr><td><code>11</code></td><td><code>51</code></td><td>ECU reset</td><td>✖</td></tr>
+      <tr><td><code>27</code></td><td><code>67</code></td><td>Security Access (login)</td><td>✖</td></tr>
+    </table>
+
+    <h3>From the log to a custom PID (Torque Pro)</h3>
+    <ol>
+      <li>In Car Scanner show only the wanted sensor and make its value change (shifting, warming up…).</li>
+      <li>Export the log and find the last <code>ATSH…</code> before the <code>22xxxx</code> requests.</li>
+      <li>Find the DID whose data changes together with the displayed value.</li>
+      <li>In Torque: <b>ModeAndPID</b> = <code>2214CB</code>, <b>Header</b> = <code>7E0</code>,
+      <b>Equation</b> using <code>A</code>, <code>B</code>… = data bytes after <code>62 14 CB</code>
+      (e.g. <code>SIGNED(A)</code>, <code>(A*256+B)/10</code>, <code>A-40</code>).</li>
+      <li>Verify in the car against Car Scanner.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="rozhrani">
+  <h2><span data-l="cs">Rozhraní a jednotky</span><span data-l="en">Interface and units</span></h2>
+  <div data-l="cs">
+    <p><span class="path">Nastavení → Rozhraní</span>: jazyk (Auto = podle systému), motiv, velikost písma, náhled hodnot
+    ve výběru senzorů, vzhled a délka grafů, aktualizace jen viditelných senzorů.</p>
+    <p><span class="path">Nastavení → Jednotky</span>: rychlost, spotřeba, objem, tlak (kPa/psi), průtok, teplota,
+    zrychlení, výkon a moment.</p>
+  </div>
+  <div data-l="en">
+    <p><span class="path">Settings → Interface</span>: language (Auto = system), theme, font size, value preview in the
+    sensor picker, chart look and length, updating only visible sensors.</p>
+    <p><span class="path">Settings → Units</span>: speed, consumption, volume, pressure (kPa/psi), flow, temperature,
+    acceleration, power and torque.</p>
+  </div>
+  <div class="shots" data-shots="22-rozhrani|22-interface;22-rozhrani-2|22-interface-2;22-rozhrani-3|22-interface-3;23-jednotky|23-units;23-jednotky-2|23-units-2"></div>
+</section>
+
+<section id="deska">
+  <h2><span data-l="cs">Palubní deska – nastavení</span><span data-l="en">Dashboard settings</span></h2>
+  <div data-l="cs">
+    <p><span class="path">Nastavení → Palubní deska</span>: motiv budíků (tmavý, světlý, Car Scanner), režim HUD (zrcadlení
+    na čelní sklo), celá obrazovka, obrázek na pozadí, <b>uložení a obnovení</b> rozložení palubní desky.</p>
+    <div class="tip"><b>Android Auto:</b> položka „Maximální počet položek na stránku v režimu Apple CarPlay / Android Auto“
+    (výchozí 10). Car Scanner v Android Auto zobrazuje hodnoty jen jako text; u některých jednotek se doporučuje 4.</div>
+  </div>
+  <div data-l="en">
+    <p><span class="path">Settings → Dashboard</span>: gauge theme (dark, light, Car Scanner), HUD mode (windscreen
+    mirroring), full screen, background image, <b>save and restore</b> of the dashboard layout.</p>
+    <div class="tip"><b>Android Auto:</b> “Maximum number of items per page in Apple CarPlay / Android Auto mode”
+    (default 10). Car Scanner shows values as text only in Android Auto; 4 is recommended for some head units.</div>
+  </div>
+  <div class="shots" data-shots="24-palubni-deska|24-dashboard;24-palubni-deska-2|24-dashboard-2"></div>
+</section>
+
+<section id="volby">
+  <h2><span data-l="cs">Volby vozidla, spotřeba paliva, ABRP</span><span data-l="en">Vehicle options, fuel consumption, ABRP</span></h2>
+  <div data-l="cs">
+    <p><span class="path">Volby vozidla</span>: objem nádrže (Octavia 3 = 50 l), korekce rychloměru, GPS rychlost,
+    vyhledávač a filtrování DTC, metoda výpočtu plnicího tlaku, škálování otáček (neměnit).</p>
+    <p><span class="path">Spotřeba paliva</span>: typ paliva, objem motoru, počet válců, <b>cena paliva</b> a měna (pro
+    výpočet nákladů), kalibrace a metoda výpočtu spotřeby. Po několika tankováních spotřebu zkalibrujte.</p>
+    <p><span class="path">Integrace ABRP</span>: odesílání telemetrie do plánovače A Better Routeplanner (hlavně pro elektromobily).</p>
+  </div>
+  <div data-l="en">
+    <p><span class="path">Vehicle options</span>: tank size (Octavia 3 = 50 l), speed correction, GPS speed, DTC search
+    engine and filters, boost calculation method, RPM scaling (leave as is).</p>
+    <p><span class="path">Fuel consumption</span>: fuel type, displacement, cylinders, <b>fuel price</b> and currency (for
+    cost calculation), calibration and calculation method. Calibrate after a few fill-ups.</p>
+    <p><span class="path">ABRP Integration</span>: sends telemetry to A Better Routeplanner (mainly for EVs).</p>
+  </div>
+  <div class="shots" data-shots="25-volby-vozidla|25-vehicle-options;25-volby-vozidla-2|25-vehicle-options-2;26-spotreba-paliva|26-fuel-consumption;26-spotreba-paliva-2|26-fuel-consumption-2;27-integrace-abrp|27-abrp"></div>
+</section>
+
+<section id="senzory">
+  <h2><span data-l="cs">Senzory</span><span data-l="en">Sensors</span></h2>
+  <div data-l="cs">
+    <p><span class="path">Nastavení → Senzory</span> má několik seznamů:</p>
+    <table>
+      <tr><th>Seznam</th><th>Obsah</th></tr>
+      <tr><td>Senzory vytvořené uživatelem</td><td>Vlastní PID; lze importovat/exportovat.</td></tr>
+      <tr><td>Základní OBDII</td><td>Standardní PID režimu 01 (otáčky, rychlost, teploty…).</td></tr>
+      <tr><td>Profil (aktivní / neaktivní / vše)</td><td>Výrobcové senzory z profilu. U každého je <b>Zakázat</b> / <b>Povolit</b>.</td></tr>
+      <tr><td>Podporováno vozidlem</td><td>Co vůz skutečně podporuje (po testu).</td></tr>
+      <tr><td>S prioritou / S rolí</td><td>Senzory s vyšší prioritou čtení a s rolí pro výpočty (spotřeba, vzdálenost…).</td></tr>
+    </table>
+    <h3>Test podporovaných senzorů</h3>
+    <p>Na konci seznamů profilu jsou tlačítka <b>Nastavte vše na „povoleno“</b> a <b>Proveďte test podporovaných senzorů</b>
+    (vyžaduje připojení, ideálně běžící motor). Test zakáže senzory, na které vůz neodpoví – u Octavie 3 DKZA zůstalo
+    411 aktivních a 117 neaktivních ze 528. Méně povolených senzorů = rychlejší obnova hodnot.</p>
+    <p>Klepnutím na senzor otevřete detail: vlastní název, priorita, role a jednotky. Dotaz a vzorec profilových senzorů
+    aplikace nezobrazuje – zjistíte je jen z logu komunikace.</p>
+    <div class="note">Povolení/zakázání senzorů se neukládá do zálohy aplikace.</div>
+  </div>
+  <div data-l="en">
+    <p><span class="path">Settings → Sensors</span> offers several lists:</p>
+    <table>
+      <tr><th>List</th><th>Contents</th></tr>
+      <tr><td>User created (custom) sensors</td><td>Custom PIDs; import/export available.</td></tr>
+      <tr><td>Basic OBDII</td><td>Standard mode 01 PIDs (RPM, speed, temperatures…).</td></tr>
+      <tr><td>Profile (active / disabled / all)</td><td>Manufacturer sensors from the profile, each with <b>Disable</b> / <b>Enable</b>.</td></tr>
+      <tr><td>Supported by car</td><td>What the car actually supports (after the test).</td></tr>
+      <tr><td>With priority / With role</td><td>Sensors read with higher priority and those with a role used in calculations (fuel, distance…).</td></tr>
+    </table>
+    <h3>Supported sensors test</h3>
+    <p>At the end of the profile lists there are <b>Set all to “enabled”</b> and <b>Run supported sensors test</b>
+    (needs a connection, ideally with the engine running). The test disables sensors the car doesn't answer – on this
+    Octavia 3 DKZA 411 of 528 stayed active and 117 were disabled. Fewer enabled sensors = faster refresh.</p>
+    <p>Tap a sensor to open its detail: custom name, priority, role and units. The app does not show the request or
+    formula of profile sensors – you only get those from the communication log.</p>
+    <div class="note">Enabling/disabling sensors is not stored in the app backup.</div>
+  </div>
+  <div class="shots" data-shots="28-senzory|28-sensors;28a-senzory-vytvorene-uzivatelem|28a-user-created-custom-sensors;28b-zakladni-obdii|28b-basic-obdii;28c-profil-aktivni|28c-profile-active;28d-profil-neaktivni|28d-profile-disabled;28e-podporovano-vozidlem|28e-supported-by-car;28f-s-prioritou|28f-with-priority;28g-s-roli|28g-with-role;29-detail-senzoru|29-sensor-detail"></div>
+</section>
+
+<section id="zaloha">
+  <h2><span data-l="cs">Záloha, terminál, kontakt, informace</span><span data-l="en">Backup, terminal, contact, info</span></h2>
+  <div data-l="cs">
+    <ul>
+      <li><span class="path">Zálohovat</span>: <b>Vytvořit zálohu</b> / <b>Obnovit zálohu</b>. Záloha (<code>.cbz</code> = ZIP)
+      obsahuje nastavení, statistiky jízd, zálohu kódování a záznamy dat (s VIN).</li>
+      <li><span class="path">Terminál</span>: ruční posílání příkazů adaptéru; nabídne připojení jen k ELM bez ECU.
+      Pouze pro pokročilé – posílejte jen čtecí dotazy.</li>
+      <li><span class="path">Kontakt na vývojáře</span>: formulář podle typu problému.</li>
+      <li><span class="path">Informace</span>: verze aplikace a databáze profilů, automatická aktualizace profilů.</li>
+    </ul>
+  </div>
+  <div data-l="en">
+    <ul>
+      <li><span class="path">Backup</span>: <b>Create backup</b> / <b>Restore backup</b>. The backup (<code>.cbz</code> = ZIP)
+      holds settings, trip statistics, the coding backup and data recordings (with VIN).</li>
+      <li><span class="path">Terminal</span>: send commands to the adapter manually; offers connecting to the ELM only.
+      Advanced use – only send read requests.</li>
+      <li><span class="path">Contact developer</span>: form by problem type.</li>
+      <li><span class="path">Info</span>: app and profile database version, automatic profile updates.</li>
+    </ul>
+  </div>
+  <div class="shots" data-shots="30-zalohovat|30-backup;31-terminal|=;32-kontakt|32-contact;33-informace|33-info"></div>
+</section>
+
+<section id="zaznam">
+  <h2><span data-l="cs">Statistika a záznam dat</span><span data-l="en">Statistics and data recording</span></h2>
+  <div data-l="cs">
+    <p><span class="path">Statistika</span>: vzdálenost, průměrná rychlost, palivo, spotřeba a náklady za období a po jízdách.</p>
+    <p><span class="path">Záznam dat</span>: přepínač záznamu (zapnutý), poloha GPS, zaokrouhlování a seznam záznamů.
+    Ukládají se jen hodnoty zobrazené na obrazovce (palubní deska / živá data). Záznam se uloží po <b>Odpojit</b>.
+    Export do CSV: podržet záznam → Sdílet → CSV.</p>
+  </div>
+  <div data-l="en">
+    <p><span class="path">Statistics</span>: distance, average speed, fuel, consumption and cost per period and per trip.</p>
+    <p><span class="path">Data recording</span>: recording switch (on), GPS location, rounding and the list of recordings.
+    Only values shown on screen (dashboard / live data) are recorded. A recording is saved on <b>Disconnect</b>.
+    CSV export: long-press a recording → Share → CSV.</p>
+  </div>
+  <div class="shots" data-shots="40-vozidlo|=;41-statistika|41-statistics;42-zaznam-dat|42-data-recording"></div>
+</section>
+
+<section id="bezpecnost">
+  <h2><span data-l="cs">Bezpečnost</span><span data-l="en">Safety</span></h2>
+  <div data-l="cs">
+    <ul>
+      <li>Čtení dat (OBD režim 01, UDS dotaz 22) je bezpečné.</li>
+      <li>Kódování, adaptace, servisní funkce, mazání chyb a zápis (UDS 2E, 31, 11, 14) mění řídicí jednotky.
+      Před kódováním si uložte zálohu kódování a identifikace jednotek.</li>
+      <li>Za jízdy aplikaci neovládejte; pro Android Auto nastavte palubní desku předem.</li>
+    </ul>
+  </div>
+  <div data-l="en">
+    <ul>
+      <li>Reading data (OBD mode 01, UDS service 22) is safe.</li>
+      <li>Coding, adaptations, service functions, clearing codes and writes (UDS 2E, 31, 11, 14) change the control units.
+      Back up coding and unit identification before coding anything.</li>
+      <li>Don't operate the app while driving; set up the Android Auto dashboard beforehand.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="demo">
+  <h2><span data-l="cs">Funkce s připojením (ukázáno v režimu Demo)</span><span data-l="en">Connected features (shown in Demo mode)</span></h2>
+  <div data-l="cs">
+    <div class="note">Snímky v této kapitole jsou z <b>režimu Demo</b>: smyšlené vozidlo (VIN <code>WP0ZZZ99ZTS392124</code>,
+    „Random engine ECU“) a náhodné hodnoty (např. 170 km/h, −20 °C, desítky chyb). Ovládání je stejné jako se skutečným autem.</div>
+    <h3>Režim Demo</h3>
+    <p>Tlačítko <b>Demo</b> na hlavní obrazovce simuluje připojené vozidlo – hodí se na vyzkoušení aplikace nebo přípravu
+    palubní desky bez auta. Nabízí <b>Všechny senzory</b> (obecné demo auto) nebo <b>Naposledy použité vozidlo</b>.
+    Ukončí se tlačítkem <b>ODPOJIT</b>.</p>
+    <div class="tip">Demo může zapisovat do záznamů a statistik. Před ním vypněte <span class="path">Záznam dat</span> a po
+    skončení ho zase zapněte.</div>
+  </div>
+  <div data-l="en">
+    <div class="note">Screenshots in this chapter come from <b>Demo mode</b>: a fictitious vehicle (VIN <code>WP0ZZZ99ZTS392124</code>,
+    “Random engine ECU”) with random values (e.g. 170 km/h, −20 °C, dozens of codes). Operation is the same as with a real car.</div>
+    <h3>Demo mode</h3>
+    <p>The <b>Demo</b> button on the main screen simulates a connected car – useful to try the app or prepare a dashboard
+    without the car. It offers <b>All sensors</b> (generic demo car) or <b>Last used vehicle</b>. End it with <b>DISCONNECT</b>.</p>
+    <div class="tip">Demo may write into recordings and statistics. Turn <span class="path">Data recording</span> off before and back on afterwards.</div>
+  </div>
+  <div class="shots" data-shots="50-demo-vyber|51-demo-connected;51-demo-pripojeno|51-demo-connected"></div>
+
+  <div data-l="cs">
+    <h3>Palubní deska</h3>
+    <p>Vlastní obrazovka s vybranými senzory, více stránek (šipky <b>&lt;&lt; &gt;&gt;</b>), režim <b>HUD</b> a nastavení (ozubené kolo).</p>
+    <ul>
+      <li><b>Přidání položky:</b> dvakrát klepněte na prázdné místo → v okně <i>Vyberte senzor</i> napište část názvu do pole s lupou → vyberte senzor → zvolte vzhled (číslo, budík, graf, sloupec…).</li>
+      <li><b>Úprava položky:</b> podržte na ní prst → <i>Přizpůsobit, Přesunout a změnit velikost, Přejmenovat, Vyberte senzor, Typ změny</i> (jiný vzhled), <i>Kopírovat styl, Smazat, Přidat novou položku</i>.</li>
+      <li>Čtou se jen senzory na zobrazené stránce – méně položek = rychlejší obnova a čistší log komunikace.</li>
+    </ul>
+  </div>
+  <div data-l="en">
+    <h3>Dashboard</h3>
+    <p>Your own screen of chosen sensors, several pages (<b>&lt;&lt; &gt;&gt;</b>), <b>HUD</b> mode and settings (gear icon).</p>
+    <ul>
+      <li><b>Add an item:</b> double-tap an empty spot → in <i>Select sensor</i> type part of the name into the search field → pick the sensor → choose a look (number, gauge, chart, bar…).</li>
+      <li><b>Edit an item:</b> long-press it → <i>Customize, Move &amp; Resize, Rename, Select sensor, Change type, Copy style, Delete, Add new item</i>.</li>
+      <li>Only sensors on the visible page are read – fewer items = faster refresh and a cleaner communication log.</li>
+    </ul>
+  </div>
+  <div class="shots" data-shots="60-palubni-deska|60-dashboard;61-palubni-deska-menu|61-dashboard-menu;62-vyber-senzoru|62-select-sensor;63-vzhled-polozky|=;64-palubni-deska-budik|="></div>
+
+  <div data-l="cs">
+    <h3>Živá data a Všechny senzory</h3>
+    <p><span class="path">Živá data</span>: grafy vybraných hodnot. Při otevření zvolíte <b>Samostatně</b> (graf pro každou veličinu)
+    nebo <b>Kombinovaně</b> (více čar v jednom grafu); čísla <b>1–4</b> nahoře mění počet grafů na obrazovce, ozubené kolo u grafu
+    vybírá senzor. <span class="path">Všechny senzory</span>: seznam všech dostupných hodnot (filtr vpravo nahoře).</p>
+  </div>
+  <div data-l="en">
+    <h3>Live data and All sensors</h3>
+    <p><span class="path">Live data</span>: charts of chosen values. On opening pick <b>Separate</b> (one chart per value) or
+    <b>Combined</b> (several lines in one chart); <b>1–4</b> at the top sets how many charts are shown, the gear icon picks the
+    sensor. <span class="path">All sensors</span>: list of every available value (filter at the top right).</p>
+  </div>
+  <div class="shots" data-shots="52-ziva-data-vzhled|52-live-data-view;52-ziva-data|52-live-data;52-ziva-data-2|52-live-data-2;53-vsechny-senzory|53-all-sensors"></div>
+
+  <div data-l="cs">
+    <h3>Diagnostické chybové kódy (DTC)</h3>
+    <p>Úvodní stránka vysvětluje typy kódů (<b>uložený, čekající, trvalý</b>) a postup mazání. <b>Číst</b> → režim
+    <i>Automaticky (doporučeno)</i> nebo <i>Pokročilé</i>, volba zobrazení archivních kódů → výpis: kód, řídicí jednotka,
+    stav a popis; klepnutím se vyhledá popis na internetu. Tlačítka <b>Exportovat</b> a <b>Vymazat</b>.</p>
+    <div class="note">Mazání chyb (<b>Vymazat</b>, koš) mění stav řídicích jednotek – nejdřív zjistěte příčinu. Mazat se
+    zapnutým zapalováním a vypnutým motorem.</div>
+  </div>
+  <div data-l="en">
+    <h3>Diagnostic trouble codes (DTC)</h3>
+    <p>The intro page explains code types (<b>stored, pending, permanent</b>) and how to clear. <b>Read</b> → mode
+    <i>Automatic (recommended)</i> or <i>Advanced</i>, option to show archived codes → list: code, control unit, status and
+    description; tap to search the description online. Buttons <b>Export</b> and <b>Clear</b>.</p>
+    <div class="note">Clearing codes (<b>Clear</b>, bin icon) changes control unit state – find the cause first. Clear with
+    ignition on and engine off.</div>
+  </div>
+  <div class="shots" data-shots="54-dtc|=;54-dtc-2|=;54-dtc-3|="></div>
+
+  <div data-l="cs">
+    <h3>Zmrazená data, monitory, identifikátory ECU, testy</h3>
+    <ul>
+      <li><span class="path">Zmrazená data</span>: hodnoty senzorů uložené v okamžiku vzniku chyby (pokud je ECU poskytuje).</li>
+      <li><span class="path">Nekontinuální monitory</span>: výsledky testů OBD (hodnota, minimum, maximum, ÚSPĚŠNÉ/NEÚSPĚŠNÉ).</li>
+      <li><span class="path">Identifikátory ECU</span>: výběr řídicích jednotek ze seznamu profilu (u VAG: brána, převodovka, ABS, motor…) a čtení jejich identifikace a kódování – vhodné jako záloha.</li>
+      <li><span class="path">Testy zrychlení</span>: měření časů 0–100 km/h apod.</li>
+      <li><span class="path">Emisní testy</span>: připravenost emisních monitorů od vymazání DTC a v aktuálním cyklu (kontrola před STK).</li>
+    </ul>
+  </div>
+  <div data-l="en">
+    <h3>Freeze frame, monitors, ECU identifiers, tests</h3>
+    <ul>
+      <li><span class="path">Freeze frame</span>: sensor values stored when a fault occurred (if the ECU provides them).</li>
+      <li><span class="path">Noncontinuous Monitors</span>: OBD test results (value, minimum, maximum, PASSED/FAILED).</li>
+      <li><span class="path">ECU identifiers</span>: choose control units from the profile list (VAG: gateway, transmission, ABS, engine…) and read their identification and coding – handy as a backup.</li>
+      <li><span class="path">Acceleration tests</span>: 0–100 km/h timings etc.</li>
+      <li><span class="path">Emission tests</span>: readiness of emission monitors since DTC clear and for the current cycle (pre-inspection check).</li>
+    </ul>
+  </div>
+  <div class="shots" data-shots="55-zmrazena-data|55-freeze-frame;56-monitory|56-monitors;57-identifikatory-ecu|57-ecu-identifiers;58-testy-zrychleni|58-acceleration-tests;59-emisni-testy|=;59-emisni-testy-2|="></div>
+</section>
+
+<section id="torque">
+  <h2><span data-l="cs">Torque Pro a Android Auto – vlastní PID pro Octavii</span><span data-l="en">Torque Pro and Android Auto – custom PIDs for the Octavia</span></h2>
+  <div data-l="cs">
+    <p>Car Scanner zobrazuje v Android Auto jen text a data neumí předat jiné aplikaci. Pro grafické budíky v Android Auto
+    se proto používá <b>Torque Pro</b> s pluginem <b>AA Torque</b>. Torque ale výrobcové senzory nezná – je potřeba mu
+    zadat vlastní PID (dotaz, hlavičku a rovnici). Ty se zjistí z <a href="#log">logu komunikace</a> Car Scanneru.</p>
+    <div class="note">Hodnoty níže platí pro <b>Octavii 3 (5E) 2018, 2.0 TSI DKZA (Simos 18), DSG DQ381</b>. U jiného
+    motoru nebo převodovky se DID mohou lišit. Všechny dotazy jsou jen čtecí (služba 22).</div>
+
+    <h3>Postup</h3>
+    <ol>
+      <li><b>Zjištění DID:</b> v Car Scanneru dejte na stránku palubní desky jen hledané senzory, projeďte se
+      a exportujte log. V logu najdete <code>ATSH…</code> (hlavička) a dotazy <code>22xxxx</code> s odpověďmi
+      <code>62 xx xx …</code>. Pořadí dotazů odpovídá pořadí položek na palubní desce.</li>
+      <li><b>Rovnice:</b> spárujte surové bajty s hodnotou, kterou Car Scanner zobrazil. Nejpřesnější je záznam jízdy
+      (<code>.brc</code>): obsahuje zobrazené hodnoty, takže stačí porovnat se surovou odpovědí ze stejné jízdy
+      (např. posilovač brzd: <code>0x5A6A</code> = 23 146 a Car Scanner ukázal 925,84 hPa → <code>/25</code>).</li>
+      <li><b>Import do Torque:</b> CSV se sloupci <i>Name, ShortName, ModeAndPID, Equation, Min, Max, Units, Header</i>
+      (+ <i>startDiagnostic, stopDiagnostic, scale, minimumRefreshDelayMillis</i>) uložte do
+      <code>Android/data/org.prowl.torque/files/extendedpids/</code> nebo do Download a v Torque dejte
+      <span class="path">Nastavení → Správa dalších PID/Sensors → ⋮ → Import CSV file</span>. CSV neotevírejte v Excelu
+      (z hlavičky <code>7E0</code> udělá číslo).</li>
+      <li><b>Ověření:</b> porovnejte hodnotu v Torque s Car Scannerem; nefunkční PID (stále 0, „-“, nesmysl) smažte.</li>
+      <li><b>AA Torque:</b> v aplikaci AA Torque nastavte dashboardy (3 budíky + 4 hodnoty na stránku) a ikonou oka
+      zkontrolujte náhled.</li>
+    </ol>
+
+    <h3>Ověřené PID (Octavia 3, DKZA, DQ381)</h3>
+    <table>
+      <tr><th>Veličina</th><th>Hlavička</th><th>PID</th><th>Rovnice</th><th>Pozn.</th></tr>
+      <tr><td>Zařazený stupeň</td><td>7E0</td><td><code>2214CB</code></td><td><code>SIGNED(A)</code></td><td>R = −1, P/N = 0, 1–7</td></tr>
+      <tr><td>Teplota oleje motoru</td><td>7E0</td><td><code>2211BD</code></td><td><code>((A*256)+B)/10-273.15</code></td><td>°C (Simos 18 ukládá Kelvin × 10)</td></tr>
+      <tr><td>Teplota oleje (přístroje)</td><td>714</td><td><code>22202F</code></td><td><code>A-54</code></td><td>odpověď z 77E (<code>ATCRA77E</code>)</td></tr>
+      <tr><td>Plnicí tlak skutečný / požadovaný</td><td>7E0</td><td><code>2211F0</code> / <code>2211F1</code></td><td><code>((A*256)+B)/12800</code></td><td>bar absolutně</td></tr>
+      <tr><td>Teplota oleje DSG</td><td>7E1</td><td><code>222104</code></td><td><code>(SIGNED(B)*256)+A</code></td><td>°C, little-endian</td></tr>
+      <tr><td>Teplota spojky DSG</td><td>7E1</td><td><code>22102B</code></td><td><code>(SIGNED(B)*256)+A</code></td><td>°C</td></tr>
+      <tr><td>Točivý moment</td><td>7E0</td><td><code>221010</code></td><td><code>((SIGNED(A)*256)+B)/10</code></td><td>Nm (orientačně)</td></tr>
+      <tr><td>Pedál plynu</td><td>7E0</td><td><code>221026</code></td><td><code>((A*256)+B)/81.92</code></td><td>%</td></tr>
+      <tr><td>Brzdný tlak (od pedálu)</td><td>7E0</td><td><code>22105C</code></td><td><code>((SIGNED(A)*256)+B)/10</code></td><td>bar</td></tr>
+      <tr><td>Spínač brzdových světel</td><td>7E1</td><td><code>223800</code></td><td><code>A</code></td><td>0/1, sepne při 0,6–1,8 bar</td></tr>
+      <tr><td>Podtlak v posilovači brzd</td><td>7E0</td><td><code>221490</code></td><td><code>((A*256)+B)/25</code></td><td>hPa, při brzdění klesá</td></tr>
+      <tr><td>Zrychlení vozu (ESP)</td><td>7E0</td><td><code>2212B0</code></td><td><code>((SIGNED(A)*256)+B)/1000</code></td><td>m/s², záporné = zpomalení</td></tr>
+      <tr><td>Kick-down</td><td>7E1</td><td><code>222114</code></td><td><code>A</code></td><td>0/1</td></tr>
+      <tr><td>Nabití baterie</td><td>710</td><td><code>222A0C</code></td><td><code>A</code></td><td>%, odpověď z 77A (<code>ATCRA77A</code>)</td></tr>
+    </table>
+    <p><b>Nefungují:</b> standardní <code>015C</code> (olej) a <code>01A4</code> (kvalt), poloha brzdového pedálu
+    <code>22105D</code>, „Requested brake torque“ pro ACC, rozlišení režimů D/S/M (sport factor <code>221019</code> stále 0).</p>
+
+    <h3>Kdy brzdí ACC a svítí brzdová světla</h3>
+    <p>Spínač brzdových světel u pedálu při brzdění adaptivním tempomatem nesepne a brzdný tlak od pedálu je 0.
+    Brzdění ACC se pozná ze <b>zrychlení vozu</b>: pedál plynu 0 %, spínač 0 a zrychlení pod <b>−0,7 m/s²</b>.
+    Podle předpisu UN R13-H musí automatické brzdění nad touto hranicí rozsvítit brzdová světla; v jízdách této Octavie
+    ACC brzdilo typicky −1 až −1,7 m/s².</p>
+
+    <h3>Tipy a úskalí</h3>
+    <ul>
+      <li><b>Úprava PID v Torque zruší jeho přiřazení v AA Torque</b> – budík zůstane prázdný, je potřeba ho vybrat znovu.</li>
+      <li><b>Smazání PID neodebere položku ze seznamu logování</b> (<span class="path">Záznam a odesílání dat → Vyberte pro záznam</span>) – odeberte ji tam ručně, jinak Torque čte neexistující PID.</li>
+      <li>Torque neumí vícenásobný dotaz (např. <code>010C0D</code>) ani podmínky v rovnici.</li>
+      <li>Trip log Torque zapisuje teploty ve °F a tlaky přepočtené na psi (÷ 14,5).</li>
+      <li>Čím víc PID je v logu a na budících, tím pomaleji se obnovují (≈ 0,1 s na dotaz).</li>
+      <li>Adaptér zvládne jen jedno spojení – Car Scanner a Torque nepouštějte současně.</li>
+    </ul>
+  </div>
+  <div data-l="en">
+    <p>In Android Auto Car Scanner shows text only and cannot pass data to other apps. Graphical gauges in Android Auto
+    therefore use <b>Torque Pro</b> with the <b>AA Torque</b> plugin. Torque does not know manufacturer sensors – you add
+    custom PIDs (request, header, equation), found in Car Scanner's <a href="#log">communication log</a>.</p>
+    <div class="note">The values below apply to an <b>Octavia 3 (5E) 2018, 2.0 TSI DKZA (Simos 18), DSG DQ381</b>. Other
+    engines or gearboxes may use different DIDs. All requests are read-only (service 22).</div>
+
+    <h3>Procedure</h3>
+    <ol>
+      <li><b>Find DIDs:</b> put only the wanted sensors on a Car Scanner dashboard page, drive and export the log. Look for
+      <code>ATSH…</code> (header) and <code>22xxxx</code> requests with <code>62 xx xx …</code> responses. The polling order
+      matches the dashboard item order.</li>
+      <li><b>Equation:</b> match raw bytes with the value Car Scanner displayed. Most precise is the trip recording
+      (<code>.brc</code>), which stores displayed values – compare with the raw response from the same drive
+      (e.g. brake booster: <code>0x5A6A</code> = 23 146 shown as 925.84 hPa → <code>/25</code>).</li>
+      <li><b>Import into Torque:</b> a CSV with <i>Name, ShortName, ModeAndPID, Equation, Min, Max, Units, Header</i>
+      (+ <i>startDiagnostic, stopDiagnostic, scale, minimumRefreshDelayMillis</i>) goes into
+      <code>Android/data/org.prowl.torque/files/extendedpids/</code> or Download; in Torque use
+      <span class="path">Settings → Manage extra PIDs/Sensors → ⋮ → Import CSV file</span>. Don't open the CSV in Excel
+      (it turns header <code>7E0</code> into a number).</li>
+      <li><b>Verify:</b> compare Torque with Car Scanner; delete PIDs that stay 0, “-” or nonsense.</li>
+      <li><b>AA Torque:</b> set up dashboards in the AA Torque app (3 gauges + 4 values per page) and check them with the eye icon.</li>
+    </ol>
+
+    <h3>Verified PIDs (Octavia 3, DKZA, DQ381)</h3>
+    <table>
+      <tr><th>Value</th><th>Header</th><th>PID</th><th>Equation</th><th>Note</th></tr>
+      <tr><td>Engaged gear</td><td>7E0</td><td><code>2214CB</code></td><td><code>SIGNED(A)</code></td><td>R = −1, P/N = 0, 1–7</td></tr>
+      <tr><td>Engine oil temperature</td><td>7E0</td><td><code>2211BD</code></td><td><code>((A*256)+B)/10-273.15</code></td><td>°C (Simos 18 stores Kelvin × 10)</td></tr>
+      <tr><td>Oil temperature (cluster)</td><td>714</td><td><code>22202F</code></td><td><code>A-54</code></td><td>response from 77E (<code>ATCRA77E</code>)</td></tr>
+      <tr><td>Boost pressure actual / requested</td><td>7E0</td><td><code>2211F0</code> / <code>2211F1</code></td><td><code>((A*256)+B)/12800</code></td><td>bar absolute</td></tr>
+      <tr><td>DSG oil temperature</td><td>7E1</td><td><code>222104</code></td><td><code>(SIGNED(B)*256)+A</code></td><td>°C, little-endian</td></tr>
+      <tr><td>DSG clutch temperature</td><td>7E1</td><td><code>22102B</code></td><td><code>(SIGNED(B)*256)+A</code></td><td>°C</td></tr>
+      <tr><td>Engine torque</td><td>7E0</td><td><code>221010</code></td><td><code>((SIGNED(A)*256)+B)/10</code></td><td>Nm (indicative)</td></tr>
+      <tr><td>Accelerator pedal</td><td>7E0</td><td><code>221026</code></td><td><code>((A*256)+B)/81.92</code></td><td>%</td></tr>
+      <tr><td>Brake pressure (pedal)</td><td>7E0</td><td><code>22105C</code></td><td><code>((SIGNED(A)*256)+B)/10</code></td><td>bar</td></tr>
+      <tr><td>Brake light switch</td><td>7E1</td><td><code>223800</code></td><td><code>A</code></td><td>0/1, on at 0.6–1.8 bar</td></tr>
+      <tr><td>Brake booster vacuum</td><td>7E0</td><td><code>221490</code></td><td><code>((A*256)+B)/25</code></td><td>hPa, drops when braking</td></tr>
+      <tr><td>Vehicle acceleration (ESP)</td><td>7E0</td><td><code>2212B0</code></td><td><code>((SIGNED(A)*256)+B)/1000</code></td><td>m/s², negative = deceleration</td></tr>
+      <tr><td>Kick-down</td><td>7E1</td><td><code>222114</code></td><td><code>A</code></td><td>0/1</td></tr>
+      <tr><td>Battery state of charge</td><td>710</td><td><code>222A0C</code></td><td><code>A</code></td><td>%, response from 77A (<code>ATCRA77A</code>)</td></tr>
+    </table>
+    <p><b>Not working:</b> standard <code>015C</code> (oil) and <code>01A4</code> (gear), brake pedal position
+    <code>22105D</code>, “Requested brake torque” for ACC, D/S/M mode detection (sport factor <code>221019</code> always 0).</p>
+
+    <h3>When ACC brakes and the brake lights come on</h3>
+    <p>The brake light switch at the pedal does not close during adaptive cruise control braking and pedal brake pressure
+    stays 0. ACC braking shows up in <b>vehicle acceleration</b>: accelerator 0 %, switch 0 and acceleration below
+    <b>−0.7 m/s²</b>. Under UN R13-H automatic braking above this threshold must light the brake lights; on this Octavia
+    ACC braked typically at −1 to −1.7 m/s².</p>
+
+    <h3>Tips and pitfalls</h3>
+    <ul>
+      <li><b>Editing a PID in Torque removes its assignment in AA Torque</b> – the gauge goes blank and must be picked again.</li>
+      <li><b>Deleting a PID does not remove it from the logging list</b> (<span class="path">Data logging &amp; upload → Select what to log</span>) – remove it there too, otherwise Torque keeps querying a missing PID.</li>
+      <li>Torque can't do multi-PID requests (e.g. <code>010C0D</code>) or conditions in equations.</li>
+      <li>Torque trip logs store temperatures in °F and pressures converted to psi (÷ 14.5).</li>
+      <li>The more PIDs logged and shown, the slower the refresh (≈ 0.1 s per request).</li>
+      <li>The adapter handles one connection – don't run Car Scanner and Torque at the same time.</li>
+    </ul>
+  </div>
+  <div class="shots" data-shots="70-aatorque-dash3|="></div>
+</section>
+
+<section id="chybi">
+  <h2><span data-l="cs">Co v návodu zatím chybí</span><span data-l="en">Not covered yet</span></h2>
+  <div data-l="cs">
+    <p>Se skutečným autem: výrobcové senzory profilu MQB v palubní desce, kódování a servisní funkce (jen popis), Car Scanner v Android Auto.</p>
+  </div>
+  <div data-l="en">
+    <p>With the real car: MQB profile manufacturer sensors on the dashboard, coding and service functions (description only), Car Scanner in Android Auto.</p>
+  </div>
+</section>
+
+<section id="slovnik">
+  <h2><span data-l="cs">Slovníček pojmů a zkratek</span><span data-l="en">Glossary</span></h2>
+  <div data-l="cs">
+    <table>
+      <tr><th>Pojem</th><th>Význam</th><th>Více</th></tr>
+      <tr><td>OBD-II / EOBD</td><td>Standardní diagnostika emisních systémů, povinná u všech aut; konektor pod volantem.</td><td><a href="https://en.wikipedia.org/wiki/On-board_diagnostics" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>PID</td><td>Parameter ID – číslo veličiny v OBD režimu 01 (např. <code>0C</code> otáčky). V Torque obecně jakýkoli definovaný dotaz.</td><td><a href="https://en.wikipedia.org/wiki/OBD-II_PIDs" target="_blank" rel="noopener">Seznam PID</a></td></tr>
+      <tr><td>Režim (mode / služba)</td><td>První bajt dotazu: 01 aktuální data, 03 chyby, 09 informace o vozidle…; UDS služby 22, 19…</td><td><a href="https://en.wikipedia.org/wiki/OBD-II_PIDs" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>UDS</td><td>Unified Diagnostic Services (ISO 14229) – výrobcová diagnostika nad CAN; čtení DID, kódování, servis.</td><td><a href="https://en.wikipedia.org/wiki/Unified_Diagnostic_Services" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>DID</td><td>Data Identifier – 2bajtové číslo údaje v UDS (např. <code>14CB</code> kvalt). Čte se službou 22.</td><td><a href="https://en.wikipedia.org/wiki/Unified_Diagnostic_Services" target="_blank" rel="noopener">UDS</a></td></tr>
+      <tr><td>NRC</td><td>Negative Response Code – důvod odmítnutí v odpovědi <code>7F</code> (např. <code>31</code>, <code>78</code>).</td><td><a href="#protokol">Kapitola protokol</a></td></tr>
+      <tr><td>CAN</td><td>Controller Area Network – sběrnice řídicích jednotek; OBD používá 500 kbit/s, 11bit ID.</td><td><a href="https://cs.wikipedia.org/wiki/CAN_bus" target="_blank" rel="noopener">Wikipedie (cs)</a></td></tr>
+      <tr><td>ISO-TP</td><td>ISO 15765-2 – přenos zpráv delších než 8 bajtů po CAN (první/pokračovací rámec, řízení toku).</td><td><a href="https://en.wikipedia.org/wiki/ISO_15765-2" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>PCI</td><td>Protocol Control Information – první bajt rámce ISO-TP (typ a délka).</td><td><a href="https://en.wikipedia.org/wiki/ISO_15765-2" target="_blank" rel="noopener">ISO-TP</a></td></tr>
+      <tr><td>CAN ID / hlavička</td><td>Adresa zprávy na sběrnici; v ELM327 se nastavuje <code>ATSH</code> (např. <code>7E0</code>).</td><td><a href="https://en.wikipedia.org/wiki/CAN_bus" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>ELM327</td><td>Čip/protokol diagnostických adaptérů; ovládá se textovými <code>AT</code> příkazy. vLinker je kompatibilní (čip řady STN/MIC).</td><td><a href="https://www.elmelectronics.com/wp-content/uploads/2017/01/ELM327DS.pdf" target="_blank" rel="noopener">Datasheet (PDF)</a></td></tr>
+      <tr><td>AT příkaz</td><td>Příkaz pro adaptér (ne pro auto), např. <code>ATZ</code>, <code>ATSH7E0</code>.</td><td><a href="https://en.wikipedia.org/wiki/ELM327" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>Bluetooth / BLE</td><td>Klasický Bluetooth (sériový profil) vs. Bluetooth Low Energy (4.0+); vLinker umí oba.</td><td><a href="https://en.wikipedia.org/wiki/Bluetooth_Low_Energy" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>ECU</td><td>Electronic Control Unit – řídicí jednotka (obecně).</td><td><a href="https://en.wikipedia.org/wiki/Electronic_control_unit" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>ECM</td><td>Engine Control Module – řídicí jednotka motoru (Simos 18, adresa <code>7E0</code>).</td><td><a href="https://en.wikipedia.org/wiki/Engine_control_unit" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>TCM / TCU</td><td>Transmission Control Module – řídicí jednotka převodovky (<code>7E1</code>).</td><td><a href="https://en.wikipedia.org/wiki/Transmission_control_unit" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>GATE / gateway</td><td>Brána (J533) – propojuje sběrnice auta a OBD konektor; v profilu i data baterie.</td><td></td></tr>
+      <tr><td>DASH / KI</td><td>Přístrojová deska (Kombiinstrument).</td><td></td></tr>
+      <tr><td>DSG, DQ381, DQ500, DQ200</td><td>Dvouspojková převodovka VW; DQ381 = 7st. s mokrými spojkami (příbuzná DQ500), DQ200 = 7st. suchá.</td><td><a href="https://en.wikipedia.org/wiki/Direct-shift_gearbox" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>MQB</td><td>Modulární platforma koncernu VW (Octavia 3, Golf 7…).</td><td><a href="https://en.wikipedia.org/wiki/Volkswagen_Group_MQB_platform" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>EA888 Gen.3B</td><td>Řada benzínových motorů VW 1,8/2,0 TSI; Gen.3B pracuje v Millerově cyklu.</td><td><a href="https://en.wikipedia.org/wiki/Volkswagen_EA888_engine" target="_blank" rel="noopener">EA888</a>, <a href="https://en.wikipedia.org/wiki/Miller_cycle" target="_blank" rel="noopener">Millerův cyklus</a></td></tr>
+      <tr><td>DTC</td><td>Diagnostic Trouble Code – chybový kód (např. P0300).</td><td><a href="https://en.wikipedia.org/wiki/On-board_diagnostics" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>Freeze frame</td><td>Zmrazená data – hodnoty senzorů uložené v okamžiku vzniku chyby.</td><td><a href="https://en.wikipedia.org/wiki/On-board_diagnostics" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>VIN</td><td>Identifikační číslo vozidla (17 znaků) – osobní údaj, nesdílet.</td><td><a href="https://cs.wikipedia.org/wiki/Identifika%C4%8Dn%C3%AD_%C4%8D%C3%ADslo_vozidla" target="_blank" rel="noopener">Wikipedie (cs)</a></td></tr>
+      <tr><td>MAC adresa</td><td>Hardwarová adresa zařízení (zde adaptéru Bluetooth).</td><td><a href="https://en.wikipedia.org/wiki/MAC_address" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>MAP / MAF</td><td>Tlak v sacím potrubí / hmotnostní průtok vzduchu.</td><td><a href="https://en.wikipedia.org/wiki/MAP_sensor" target="_blank" rel="noopener">MAP</a>, <a href="https://en.wikipedia.org/wiki/Mass_flow_sensor" target="_blank" rel="noopener">MAF</a></td></tr>
+      <tr><td>IAT</td><td>Intake Air Temperature – teplota nasávaného vzduchu.</td><td></td></tr>
+      <tr><td>Lambda / O2 senzor</td><td>Měří obsah kyslíku ve výfuku; řídí poměr vzduch–palivo.</td><td><a href="https://cs.wikipedia.org/wiki/Lambda_sonda" target="_blank" rel="noopener">Wikipedie (cs)</a></td></tr>
+      <tr><td>AFR / stechiometrie</td><td>Poměr vzduchu a paliva; stechiometrický pro benzín ≈ 14,7 : 1.</td><td><a href="https://en.wikipedia.org/wiki/Air%E2%80%93fuel_ratio" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>STFT / LTFT</td><td>Krátkodobá / dlouhodobá korekce dávky paliva (%).</td><td><a href="https://en.wikipedia.org/wiki/OBD-II_PIDs" target="_blank" rel="noopener">PID 06–09</a></td></tr>
+      <tr><td>Knock retard</td><td>Zpoždění zážehu kvůli detonačnímu spalování (klepání).</td><td><a href="https://en.wikipedia.org/wiki/Engine_knocking" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>GPF / DPF</td><td>Filtr pevných částic benzínového / naftového motoru.</td><td><a href="https://en.wikipedia.org/wiki/Gasoline_particulate_filter" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>TPMS</td><td>Kontrola tlaku pneumatik; Octavia 3 používá nepřímou (přes ABS), tlak neměří.</td><td><a href="https://en.wikipedia.org/wiki/Tire-pressure_monitoring_system" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>HUD</td><td>Head-up display – zrcadlené zobrazení pro odraz v čelním skle.</td><td><a href="https://en.wikipedia.org/wiki/Head-up_display" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>Hex (0x)</td><td>Šestnáctková soustava; <code>3F</code> = 63, <code>FF</code> = 255 nebo −1 (se znaménkem).</td><td><a href="https://en.wikipedia.org/wiki/Hexadecimal" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>Role (Car Scanner)</td><td>Význam senzoru pro výpočty aplikace (RPM, Speed, MAF…) – ovlivňuje spotřebu a vzdálenost.</td><td></td></tr>
+      <tr><td>Profil připojení</td><td>Databáze výrobcových senzorů a nastavení pro konkrétní vůz/motor.</td><td><a href="https://www.carscanner.info/" target="_blank" rel="noopener">carscanner.info</a></td></tr>
+      <tr><td>Android Auto</td><td>Zobrazení aplikací telefonu na displeji auta.</td><td><a href="https://en.wikipedia.org/wiki/Android_Auto" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>ABRP</td><td>A Better Routeplanner – plánovač tras (hlavně elektromobily).</td><td><a href="https://abetterrouteplanner.com/" target="_blank" rel="noopener">abetterrouteplanner.com</a></td></tr>
+    </table>
+    <h3>Další zdroje</h3>
+    <ul>
+      <li><a href="https://www.carscanner.info/" target="_blank" rel="noopener">Car Scanner – oficiální stránky a návody</a>
+        (<a href="https://www.carscanner.info/records/" target="_blank" rel="noopener">záznam dat</a>,
+        <a href="https://www.carscanner.info/choosing-obdii-adapter/" target="_blank" rel="noopener">výběr adaptéru</a>,
+        <a href="https://www.carscanner.info/coding-mqb/" target="_blank" rel="noopener">kódování MQB</a>)</li>
+      <li><a href="https://www.elmelectronics.com/wp-content/uploads/2017/01/ELM327DS.pdf" target="_blank" rel="noopener">ELM327 datasheet</a> – všechny AT příkazy</li>
+      <li><a href="https://play.google.com/store/apps/details?id=org.prowl.torque" target="_blank" rel="noopener">Torque Pro</a> a
+        <a href="https://github.com/agronick/aa-torque" target="_blank" rel="noopener">AA Torque</a> (budíky v Android Auto)</li>
+    </ul>
+  </div>
+  <div data-l="en">
+    <table>
+      <tr><th>Term</th><th>Meaning</th><th>More</th></tr>
+      <tr><td>OBD-II / EOBD</td><td>Standard emission-system diagnostics, mandatory on all cars; connector under the steering wheel.</td><td><a href="https://en.wikipedia.org/wiki/On-board_diagnostics" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>PID</td><td>Parameter ID – number of a value in OBD mode 01 (e.g. <code>0C</code> RPM). In Torque, any defined request.</td><td><a href="https://en.wikipedia.org/wiki/OBD-II_PIDs" target="_blank" rel="noopener">PID list</a></td></tr>
+      <tr><td>Mode / service</td><td>First request byte: 01 current data, 03 codes, 09 vehicle info…; UDS services 22, 19…</td><td><a href="https://en.wikipedia.org/wiki/OBD-II_PIDs" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>UDS</td><td>Unified Diagnostic Services (ISO 14229) – manufacturer diagnostics over CAN; DID reads, coding, service.</td><td><a href="https://en.wikipedia.org/wiki/Unified_Diagnostic_Services" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>DID</td><td>Data Identifier – 2-byte value number in UDS (e.g. <code>14CB</code> gear). Read with service 22.</td><td><a href="https://en.wikipedia.org/wiki/Unified_Diagnostic_Services" target="_blank" rel="noopener">UDS</a></td></tr>
+      <tr><td>NRC</td><td>Negative Response Code – reason in a <code>7F</code> response (e.g. <code>31</code>, <code>78</code>).</td><td><a href="#protokol">Protocol chapter</a></td></tr>
+      <tr><td>CAN</td><td>Controller Area Network – the ECU bus; OBD uses 500 kbit/s, 11-bit IDs.</td><td><a href="https://en.wikipedia.org/wiki/CAN_bus" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>ISO-TP</td><td>ISO 15765-2 – transport of messages longer than 8 bytes over CAN (first/consecutive frame, flow control).</td><td><a href="https://en.wikipedia.org/wiki/ISO_15765-2" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>PCI</td><td>Protocol Control Information – first byte of an ISO-TP frame (type and length).</td><td><a href="https://en.wikipedia.org/wiki/ISO_15765-2" target="_blank" rel="noopener">ISO-TP</a></td></tr>
+      <tr><td>CAN ID / header</td><td>Message address on the bus; set in ELM327 with <code>ATSH</code> (e.g. <code>7E0</code>).</td><td><a href="https://en.wikipedia.org/wiki/CAN_bus" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>ELM327</td><td>Chip/protocol of diagnostic adapters, controlled by text <code>AT</code> commands. vLinker is compatible (STN/MIC-class chip).</td><td><a href="https://www.elmelectronics.com/wp-content/uploads/2017/01/ELM327DS.pdf" target="_blank" rel="noopener">Datasheet (PDF)</a></td></tr>
+      <tr><td>AT command</td><td>Command for the adapter (not the car), e.g. <code>ATZ</code>, <code>ATSH7E0</code>.</td><td><a href="https://en.wikipedia.org/wiki/ELM327" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>Bluetooth / BLE</td><td>Classic Bluetooth (serial profile) vs. Bluetooth Low Energy (4.0+); vLinker supports both.</td><td><a href="https://en.wikipedia.org/wiki/Bluetooth_Low_Energy" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>ECU</td><td>Electronic Control Unit (general term).</td><td><a href="https://en.wikipedia.org/wiki/Electronic_control_unit" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>ECM</td><td>Engine Control Module (Simos 18, address <code>7E0</code>).</td><td><a href="https://en.wikipedia.org/wiki/Engine_control_unit" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>TCM / TCU</td><td>Transmission Control Module (<code>7E1</code>).</td><td><a href="https://en.wikipedia.org/wiki/Transmission_control_unit" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>GATE / gateway</td><td>Gateway (J533) – links the car's buses and the OBD connector; also holds battery data in the profile.</td><td></td></tr>
+      <tr><td>DASH / KI</td><td>Instrument cluster (Kombiinstrument).</td><td></td></tr>
+      <tr><td>DSG, DQ381, DQ500, DQ200</td><td>VW dual-clutch gearbox; DQ381 = 7-speed wet clutch (related to DQ500), DQ200 = 7-speed dry.</td><td><a href="https://en.wikipedia.org/wiki/Direct-shift_gearbox" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>MQB</td><td>VW Group modular platform (Octavia 3, Golf 7…).</td><td><a href="https://en.wikipedia.org/wiki/Volkswagen_Group_MQB_platform" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>EA888 Gen.3B</td><td>VW 1.8/2.0 TSI petrol engine family; Gen.3B runs a Miller cycle.</td><td><a href="https://en.wikipedia.org/wiki/Volkswagen_EA888_engine" target="_blank" rel="noopener">EA888</a>, <a href="https://en.wikipedia.org/wiki/Miller_cycle" target="_blank" rel="noopener">Miller cycle</a></td></tr>
+      <tr><td>DTC</td><td>Diagnostic Trouble Code (e.g. P0300).</td><td><a href="https://en.wikipedia.org/wiki/On-board_diagnostics" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>Freeze frame</td><td>Sensor values stored at the moment a fault occurred.</td><td><a href="https://en.wikipedia.org/wiki/On-board_diagnostics" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>VIN</td><td>Vehicle Identification Number (17 characters) – personal data, don't share.</td><td><a href="https://en.wikipedia.org/wiki/Vehicle_identification_number" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>MAC address</td><td>Hardware address of a device (here the Bluetooth adapter).</td><td><a href="https://en.wikipedia.org/wiki/MAC_address" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>MAP / MAF</td><td>Manifold absolute pressure / mass air flow.</td><td><a href="https://en.wikipedia.org/wiki/MAP_sensor" target="_blank" rel="noopener">MAP</a>, <a href="https://en.wikipedia.org/wiki/Mass_flow_sensor" target="_blank" rel="noopener">MAF</a></td></tr>
+      <tr><td>IAT</td><td>Intake Air Temperature.</td><td></td></tr>
+      <tr><td>Lambda / O2 sensor</td><td>Measures exhaust oxygen; controls the air–fuel ratio.</td><td><a href="https://en.wikipedia.org/wiki/Oxygen_sensor" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>AFR / stoichiometry</td><td>Air–fuel ratio; stoichiometric for petrol ≈ 14.7 : 1.</td><td><a href="https://en.wikipedia.org/wiki/Air%E2%80%93fuel_ratio" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>STFT / LTFT</td><td>Short / long term fuel trim (%).</td><td><a href="https://en.wikipedia.org/wiki/OBD-II_PIDs" target="_blank" rel="noopener">PIDs 06–09</a></td></tr>
+      <tr><td>Knock retard</td><td>Ignition retard due to knocking combustion.</td><td><a href="https://en.wikipedia.org/wiki/Engine_knocking" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>GPF / DPF</td><td>Gasoline / diesel particulate filter.</td><td><a href="https://en.wikipedia.org/wiki/Gasoline_particulate_filter" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>TPMS</td><td>Tyre pressure monitoring; Octavia 3 uses the indirect (ABS-based) system that doesn't measure pressure.</td><td><a href="https://en.wikipedia.org/wiki/Tire-pressure_monitoring_system" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>HUD</td><td>Head-up display – mirrored view for reflection in the windscreen.</td><td><a href="https://en.wikipedia.org/wiki/Head-up_display" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>Hex (0x)</td><td>Base-16 numbers; <code>3F</code> = 63, <code>FF</code> = 255 or −1 (signed).</td><td><a href="https://en.wikipedia.org/wiki/Hexadecimal" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>Role (Car Scanner)</td><td>What a sensor means for the app's calculations (RPM, Speed, MAF…) – affects fuel and distance.</td><td></td></tr>
+      <tr><td>Connection profile</td><td>Database of manufacturer sensors and settings for a specific car/engine.</td><td><a href="https://www.carscanner.info/" target="_blank" rel="noopener">carscanner.info</a></td></tr>
+      <tr><td>Android Auto</td><td>Shows phone apps on the car's display.</td><td><a href="https://en.wikipedia.org/wiki/Android_Auto" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+      <tr><td>ABRP</td><td>A Better Routeplanner – route planner (mainly EVs).</td><td><a href="https://abetterrouteplanner.com/" target="_blank" rel="noopener">abetterrouteplanner.com</a></td></tr>
+    </table>
+    <h3>Further reading</h3>
+    <ul>
+      <li><a href="https://www.carscanner.info/" target="_blank" rel="noopener">Car Scanner – official site and guides</a>
+        (<a href="https://www.carscanner.info/records/" target="_blank" rel="noopener">data recording</a>,
+        <a href="https://www.carscanner.info/choosing-obdii-adapter/" target="_blank" rel="noopener">choosing an adapter</a>,
+        <a href="https://www.carscanner.info/coding-mqb/" target="_blank" rel="noopener">MQB coding</a>)</li>
+      <li><a href="https://www.elmelectronics.com/wp-content/uploads/2017/01/ELM327DS.pdf" target="_blank" rel="noopener">ELM327 datasheet</a> – all AT commands</li>
+      <li><a href="https://play.google.com/store/apps/details?id=org.prowl.torque" target="_blank" rel="noopener">Torque Pro</a> and
+        <a href="https://github.com/agronick/aa-torque" target="_blank" rel="noopener">AA Torque</a> (gauges in Android Auto)</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<footer>
+  <span data-l="cs">Neoficiální uživatelský návod. Car Scanner je produkt společnosti Car Scanner LLC. Screenshoty: 2026-11-07.</span>
+  <span data-l="en">Unofficial user guide. Car Scanner is a product of Car Scanner LLC. Screenshots: 2026-11-07.</span>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-label="Screenshot"><img alt=""></div>
+
+<script>
+  // Each data-shots entry: "csName|enName" (enName "=" means same base name in both languages).
+  // Images: web/cs-<csName>.webp and web/en-<enName>.webp; missing EN shots fall back to CZ.
+  const EN_MISSING = new Set(['21-profil-pripojeni', '21-profil-pripojeni-2', '21-profil-pripojeni-4', '31-terminal', '40-vozidlo',
+    '50-demo-vyber', '63-vzhled-polozky', '64-palubni-deska-budik', '59-emisni-testy', '59-emisni-testy-2', '70-aatorque-dash3']);
+  document.querySelectorAll('.shots').forEach(box => {
+    box.dataset.shots.split(';').forEach(pair => {
+      const [cs, enRaw] = pair.split('|');
+      const en = enRaw === '=' ? cs : enRaw;
+      for (const lang of ['cs', 'en']) {
+        const fig = document.createElement('figure');
+        fig.dataset.l = lang;
+        const useCs = lang === 'cs' || EN_MISSING.has(cs);
+        const img = document.createElement('img');
+        img.loading = 'lazy';
+        img.src = 'web/' + (useCs ? 'cs-' + cs : 'en-' + en) + '.webp';
+        img.alt = (useCs ? cs : en).replace(/^\d+[a-z]?-/, '').replace(/-/g, ' ');
+        const cap = document.createElement('figcaption');
+        cap.textContent = img.alt;
+        fig.append(img, cap);
+        box.append(fig);
+      }
+    });
+  });
+
+  const lb = document.getElementById('lb');
+  document.addEventListener('click', e => {
+    if (e.target.matches('.shots img')) { lb.querySelector('img').src = e.target.src; lb.classList.add('open'); }
+    else if (e.target.closest('#lb')) lb.classList.remove('open');
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('open'); });
+
+  function setLang(l) {
+    document.documentElement.lang = l;
+    document.querySelectorAll('.langs button').forEach(b => b.setAttribute('aria-pressed', b.dataset.set === l));
+    try { localStorage.setItem('cs-guide-lang', l); } catch (_) {}
+  }
+  document.querySelectorAll('.langs button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.set)));
+  try { const saved = localStorage.getItem('cs-guide-lang'); if (saved) setLang(saved); } catch (_) {}
+</script>
+</body>
+</html>

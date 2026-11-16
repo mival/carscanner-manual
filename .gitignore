@@ -1,0 +1,21 @@
+# Citlivá data (VIN, MAC adaptéru, kódování, logy komunikace) – nikdy do veřejného repa
+work/
+backup-orig/
+screenshots/
+navod/raw/
+*.cbz
+*.brc
+log*.txt
+Transfer*Dock*.txt
+coding.bak
+
+# Mezivýstupy návodu (publikuje se jen navod/web/*.webp)
+navod/img/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Soukromé poznámky
+CLAUDE.local.md

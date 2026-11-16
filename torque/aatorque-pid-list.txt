@@ -1,0 +1,214 @@
+Brzdny tlak raw (ECM)
+Nepoužito
+0-100kph Time
+0-100mph Time
+0-200kph Time
+0-30mph Time
+0-60mph Time
+1/4 mile time
+1/8 mile time
+100-0kph Time
+100-200kph Time
+40-60mph Time
+60-0mph Time
+60-120mph Time
+60-130mph Time
+60-80mph Time
+80-100mph Time
+80-120kph Time
+Absolute Throttle Position B
+Acceleration Sensor(Total)
+Acceleration Sensor(X axis damped)
+Acceleration Sensor(X axis)
+Acceleration Sensor(Y axis damped)
+Acceleration Sensor(Y axis)
+Acceleration Sensor(Z axis damped)
+Acceleration Sensor(Z axis)
+Accelerator PedalPosition D
+Accelerator PedalPosition E
+Accelerator PedalPosition F
+Actual engine % torque
+Air Fuel Ratio(Commanded)
+Air Fuel Ratio(Measured)
+Air Status
+Ambient air temp
+Android device Battery Level
+Android device rotation
+Average trip speed(whilst moving only)
+Average trip speed(whilst stopped or moving)
+Barometer (on Android device)
+Barometric pressure (from vehicle)
+Baterie nabiti
+Boost Pressure Commanded A
+Boost Pressure Commanded B
+Boost Pressure Sensor A
+Boost Pressure Sensor B
+CO₂ in g/km (Average)
+CO₂ in g/km (Instantaneous)
+Catalyst Temperature (Bank 1 Sensor 1)
+Catalyst Temperature (Bank 1 Sensor 2)
+Catalyst Temperature (Bank 2 Sensor 1)
+Catalyst Temperature (Bank 2 Sensor 2)
+Charge air cooler temperature (CACT)
+Commanded Equivalence Ratio(lambda)
+Cost per mile/km (Instant)
+Cost per mile/km (Trip)
+DPF Bank 1 Delta Pressure
+DPF Bank 1 Inlet Pressure
+DPF Bank 1 Inlet Temperature
+DPF Bank 1 Outlet Pressure
+DPF Bank 1 Outlet Temperature
+DPF Bank 2 Delta Pressure
+DPF Bank 2 Inlet Pressure
+DPF Bank 2 Inlet Temperature
+DPF Bank 2 Outlet Pressure
+DPF Bank 2 Outlet Temperature
+Distance to empty (Estimated)
+Distance travelled since codes cleared
+Distance travelled with MIL/CEL lit
+Drivers demand engine % torque
+EGR Commanded
+EGR Error
+Engine Coolant Temperature
+Engine Load
+Engine Load(Absolute)
+Engine Oil Temperature
+Engine RPM
+Engine kW (At the wheels)
+Engine reference torque
+Ethanol Fuel %
+Evap System Vapour Pressure
+Exhaust Pressure Bank 1
+Exhaust Pressure Bank 2
+Exhaust gas temp Bank 1 Sensor 1
+Exhaust gas temp Bank 1 Sensor 2
+Exhaust gas temp Bank 1 Sensor 3
+Exhaust gas temp Bank 1 Sensor 4
+Exhaust gas temp Bank 2 Sensor 1
+Exhaust gas temp Bank 2 Sensor 2
+Exhaust gas temp Bank 2 Sensor 3
+Exhaust gas temp Bank 2 Sensor 4
+Fuel Level (From Engine ECU)
+Fuel Rail Pressure
+Fuel Rail Pressure (relative to manifold vacuum)
+Fuel Rate (direct from ECU)
+Fuel Remaining (Calculated from vehicle profile)
+Fuel Status
+Fuel Trim Bank 1 Long Term
+Fuel Trim Bank 1 Short Term
+Fuel Trim Bank 2 Long Term
+Fuel Trim Bank 2 Short Term
+Fuel cost (trip)
+Fuel flow rate/hour
+Fuel flow rate/minute
+Fuel pressure
+Fuel trim Sensor1
+Fuel trim Sensor2
+Fuel trim Sensor3
+Fuel trim Sensor4
+Fuel trim Sensor5
+Fuel trim Sensor6
+Fuel trim Sensor7
+Fuel trim Sensor8
+Fuel used (trip)
+GPS Accuracy
+GPS Altitude
+GPS Bearing
+GPS Latitude
+GPS Longitude
+GPS Satellites
+GPS vs OBD Speed difference
+Horsepower (At the wheels)
+Hybrid Battery Charge (%)
+Hybrid/EV Battery State of Health
+Hybrid/EV System Battery Current
+Hybrid/EV System Battery Power
+Hybrid/EV System Battery Voltage
+Intake Air Temperature
+Intake Manfold Abs Pressure A
+Intake Manfold Abs Pressure B
+Intake Manifold Pressure
+Kilometers Per Litre(Instant)
+Kilometers Per Litre(Long Term Average)
+Kvalt (ECM)
+Litres Per 100 Kilometer(Instant)
+Litres Per 100 Kilometer(Long Term Average)
+Mass Air Flow Rate
+Mass air flow sensor A
+Mass air flow sensor B
+Miles Per Gallon(Instant)
+Miles Per Gallon(Long Term Average)
+NOx Post SCR
+NOx Pre SCR
+O2 Sensor1 Voltage
+O2 Sensor1 Wide Range Current
+O2 Sensor1 Wide Range Equivalence Ratio
+O2 Sensor1 Wide Range Voltage
+O2 Sensor2 Voltage
+O2 Sensor2 Wide Range Current
+O2 Sensor2 Wide Range Equivalence Ratio
+O2 Sensor2 Wide Range Voltage
+O2 Sensor3 Voltage
+O2 Sensor3 Wide Range Current
+O2 Sensor3 Wide Range Equivalence Ratio
+O2 Sensor3 Wide Range Voltage
+O2 Sensor4 Voltage
+O2 Sensor4 Wide Range Current
+O2 Sensor4 Wide Range Equivalence Ratio
+O2 Sensor4 Wide Range Voltage
+O2 Sensor5 Voltage
+O2 Sensor5 Wide Range Current
+O2 Sensor5 Wide Range Equivalence Ratio
+O2 Sensor5 Wide Range Voltage
+O2 Sensor6 Voltage
+O2 Sensor6 Wide Range Current
+O2 Sensor6 Wide Range Equivalence Ratio
+O2 Sensor6 Wide Range Voltage
+O2 Sensor7 Voltage
+O2 Sensor7 Wide Range Current
+O2 Sensor7 Wide Range Equivalence Ratio
+O2 Sensor7 Wide Range Voltage
+O2 Sensor8 Voltage
+O2 Sensor8 Wide Range Current
+O2 Sensor8 Wide Range Equivalence Ratio
+O2 Sensor8 Wide Range Voltage
+Odometer(from ECU)
+Olej DSG
+Olej motoru (ECM)
+Olej motoru KI
+Pedal plynu raw (ECM)
+Percentage of City driving
+Percentage of Highway driving
+Percentage of Idle driving
+Plnici tlak pozadovany (abs)
+Plnici tlak skutecny (abs)
+Posilovac brzd raw (ECM)
+Positive Kinetic Energy (PKE)
+Relative Accelerator Pedal Position
+Relative Throttle Position
+Run time since engine start
+Speed (GPS)
+Speed (OBD)
+Spojka 1 DSG
+Throttle Position(Manifold)
+Tilt(x)
+Tilt(y)
+Tilt(z)
+Timing Advance
+Tocivy moment (ECM)
+Torque
+Transmission Temperature(Method 1)
+Transmission Temperature(Method 2)
+Trip Distance
+Trip Time(Since journey start)
+Trip average KPL
+Trip average Litres/100 KM
+Trip average MPG
+Trip distance (stored in vehicle profile)
+Trip time(whilst moving)
+Trip time(whilst stationary)
+Turbo Boost & Vacuum Gauge
+Voltage (Control Module)
+Voltage (OBD Adapter)
+Volumetric Efficiency (Calculated)
+Zrychleni vozu raw

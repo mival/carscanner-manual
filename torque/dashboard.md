@@ -6,6 +6,23 @@ Všechny vlastní PIDy jsou **kandidáti, neověřeno na tomto voze**. Zdroj: Go
 
 Pouze čtení (mód 01/22). Zdrojový soubor GTD posílá `1003` (diagnostická session) – **vynecháno** podle pravidel projektu. Pokud `2211BE` / `222104` bez session neodpoví, je to očekávatelné a hodnotu získáme z logu Car Scanneru.
 
+## Aktuální stav (2026-11-18, přes ADB, ověřeno náhledem)
+Torque má 13 vlastních PID. Duplicitní a chybové PID jsou odebrané. Záznam (log) obsahuje 15 hodnot.
+
+| | Dashboard 1 | Dashboard 2 | Dashboard 3 |
+|---|---|---|---|
+| Levý | Olej motoru (ECM) | Olej motoru (ECM) | Brzdný tlak raw (ECM) |
+| Prostřední | Turbo Boost & Vacuum Gauge | Engine RPM | Plnicí tlak skutečný (abs) |
+| Pravý | Olej DSG | Spojka 1 DSG | Točivý moment (ECM) |
+| View 1 | Kvalt (ECM) | Timing Advance | Brzdová světla (spínač) |
+| View 2 | Engine Coolant Temperature | Plnicí tlak požadovaný (abs) | Zrychlení vozu raw |
+| View 3 | Intake Air Temperature | Baterie nabití | Plnicí tlak požadovaný (abs) |
+| View 4 | Voltage (Control Module) | Plnicí tlak skutečný (abs) | Kvalt (ECM) |
+
+- 2026-11-18: PID `Olej motoru KI` (`22202F`) smazán, protože občas vrací 0xFF (201 °C). Dashboard 2 vlevo má teď `Olej motoru (ECM)`.
+- Záznam: Brzdný tlak, Brzdová světla, Kvalt, Olej DSG, Olej motoru (ECM), Pedál plynu, Plnicí tlak pož./skut., Throttle Position(Manifold), Posilovač brzd, Speed (OBD), Spojka 1, Točivý moment, Turbo Boost, Zrychlení (+ G-senzory, GPS vypnuto).
+- Níže je historie nastavení.
+
 ## Nastaveno v AA Torque (2026-11-06, přes ADB, ověřeno náhledem)
 Každý dashboard = 3 budíky + 4 hodnoty (View). Přepínání dashboardů swipe vlevo/vpravo, nahoru/dolů budík ↔ graf.
 

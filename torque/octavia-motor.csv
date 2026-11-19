@@ -1,0 +1,7 @@
+"Name","ShortName","ModeAndPID","Equation","Min Value","Max Value","Units","Header","startDiagnostic","stopDiagnostic","scale","minimumRefreshDelayMillis"
+"Vyfukove plyny pred kat (model)", "EGT", "221421", "(((A*256)+B)/10)-273.15", 0, 1000, "°C", "7E0", "", "",1,2000
+"Palivo VT skutecny", "VT palivo", "22159F", "((A*256)+B)/200", 0, 300, "bar", "7E0", "", "",1,1000
+"Klepani valec 1", "Knock 1", "2210E2", "SIGNED(A)*0.75", -15, 0, "°", "7E0", "", "",1,1000
+"Klepani valec 2", "Knock 2", "2210E5", "SIGNED(A)*0.75", -15, 0, "°", "7E0", "", "",1,1000
+"Klepani valec 3", "Knock 3", "2210E3", "SIGNED(A)*0.75", -15, 0, "°", "7E0", "", "",1,1000
+"Klepani valec 4", "Knock 4", "2210E4", "SIGNED(A)*0.75", -15, 0, "°", "7E0", "", "",1,1000

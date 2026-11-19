@@ -6,21 +6,22 @@ Všechny vlastní PIDy jsou **kandidáti, neověřeno na tomto voze**. Zdroj: Go
 
 Pouze čtení (mód 01/22). Zdrojový soubor GTD posílá `1003` (diagnostická session) – **vynecháno** podle pravidel projektu. Pokud `2211BE` / `222104` bez session neodpoví, je to očekávatelné a hodnotu získáme z logu Car Scanneru.
 
-## Aktuální stav (2026-11-18, přes ADB, ověřeno náhledem)
-Torque má 13 vlastních PID. Duplicitní a chybové PID jsou odebrané. Záznam (log) obsahuje 15 hodnot.
+## Aktuální stav (2026-11-19, přes ADB, ověřeno náhledem)
+Torque má 19 vlastních PID. Záznam (log) obsahuje 19 hodnot.
 
-| | Dashboard 1 | Dashboard 2 | Dashboard 3 |
-|---|---|---|---|
-| Levý | Olej motoru (ECM) | Olej motoru (ECM) | Brzdný tlak raw (ECM) |
-| Prostřední | Turbo Boost & Vacuum Gauge | Engine RPM | Plnicí tlak skutečný (abs) |
-| Pravý | Olej DSG | Spojka 1 DSG | Točivý moment (ECM) |
-| View 1 | Kvalt (ECM) | Timing Advance | Brzdová světla (spínač) |
-| View 2 | Engine Coolant Temperature | Plnicí tlak požadovaný (abs) | Zrychlení vozu raw |
-| View 3 | Intake Air Temperature | Baterie nabití | Plnicí tlak požadovaný (abs) |
-| View 4 | Voltage (Control Module) | Plnicí tlak skutečný (abs) | Kvalt (ECM) |
+| | Dashboard 1 | Dashboard 2 | Dashboard 3 | Dashboard 4 (Motor) |
+|---|---|---|---|---|
+| Levý | Olej motoru (ECM) | Olej motoru (ECM) | Brzdný tlak raw (ECM) | Výfukové plyny před kat. (model) |
+| Prostřední | Turbo Boost & Vacuum Gauge | Engine RPM | Plnicí tlak skutečný (abs) | Palivo VT skutečný |
+| Pravý | Olej DSG | Spojka 1 DSG | Točivý moment (ECM) | Plnicí tlak skutečný (abs) |
+| View 1 | Kvalt (ECM) | Timing Advance | Brzdová světla (spínač) | Klepání válec 1 |
+| View 2 | Engine Coolant Temperature | Plnicí tlak požadovaný (abs) | Zrychlení vozu raw | Klepání válec 2 |
+| View 3 | Intake Air Temperature | Baterie nabití | Plnicí tlak požadovaný (abs) | Klepání válec 3 |
+| View 4 | Voltage (Control Module) | Plnicí tlak skutečný (abs) | Kvalt (ECM) | Klepání válec 4 |
 
-- 2026-11-18: PID `Olej motoru KI` (`22202F`) smazán, protože občas vrací 0xFF (201 °C). Dashboard 2 vlevo má teď `Olej motoru (ECM)`.
-- Záznam: Brzdný tlak, Brzdová světla, Kvalt, Olej DSG, Olej motoru (ECM), Pedál plynu, Plnicí tlak pož./skut., Throttle Position(Manifold), Posilovač brzd, Speed (OBD), Spojka 1, Točivý moment, Turbo Boost, Zrychlení (+ G-senzory, GPS vypnuto).
+- 2026-11-19: import `octavia-motor.csv` (EGT `221421`, VT palivo `22159F`, klepání `2210E2`/`E5`/`E3`/`E4`). Interval obnovy: EGT 2 s, VT palivo a klepání 1 s.
+- Záznam: Brzdný tlak, Brzdová světla, Klepání 1–4, Kvalt, Olej DSG, Olej motoru (ECM), Palivo VT, Pedál plynu, Plnicí tlak pož./skut., Speed (OBD), Spojka 1, Točivý moment, Turbo Boost, Výfukové plyny, Zrychlení (+ G-senzory, GPS vypnuto). Ze záznamu odebráno: Throttle Position(Manifold), Posilovač brzd (PID zůstal).
+- 2026-11-18: PID `Olej motoru KI` (`22202F`) smazán, protože občas vrací 0xFF (201 °C).
 - Níže je historie nastavení.
 
 ## Nastaveno v AA Torque (2026-11-06, přes ADB, ověřeno náhledem)
